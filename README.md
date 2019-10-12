@@ -33,6 +33,16 @@ html.is-dark body {
 }
 ```
 
+## Options
+
+### `darkClass`
+
+Type: `string`.
+
+Default: `is-dark`.
+
+`html`’s class, which will switch dark theme.
+
 ## Usage
 
 ```js
