@@ -89,6 +89,6 @@ Type: `string`. Default: `is-dark`.
 
 ### `lightClass`
 
-Type: `string`. Default: `is-dark`.
+Type: `string`. Default: `is-light`.
 
 `html`’s class, which will switch light theme.
