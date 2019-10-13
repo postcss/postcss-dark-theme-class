@@ -82,8 +82,13 @@ themeSwitcher.addEventListener('change', () => {
 
 ### `darkClass`
 
-Type: `string`.
-
-Default: `is-dark`.
+Type: `string`. Default: `is-dark`.
 
 `html`’s class, which will switch dark theme.
+
+
+### `lightClass`
+
+Type: `string`. Default: `is-dark`.
+
+`html`’s class, which will switch light theme.
