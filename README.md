@@ -88,6 +88,17 @@ themeSwitcher.addEventListener('change', () => {
 
 ## Options
 
+```js
+module.exports = {
+  plugins: [
+    require('postcss-dark-theme-class')({
+      darkClass: 'dark-theme',
+      lightClass: 'light-theme'
+    })
+  ]
+}
+```
+
 ### `darkClass`
 
 Type: `string`. Default: `is-dark`.
