@@ -75,3 +75,12 @@ it('allows to change class', () => run(
     html.dark-theme a { color: white }`,
   { darkClass: 'dark-theme', lightClass: 'light-theme' }
 ))
+
+it('throws on dot in class options', () => {
+  expect(() => {
+    run('', '', { darkClass: '.dark', lightClass: 'light' })
+  }).toThrowError(/"dark"/)
+  expect(() => {
+    run('', '', { darkClass: 'dark', lightClass: '.light' })
+  }).toThrowError(/"light"/)
+})

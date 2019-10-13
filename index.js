@@ -2,7 +2,19 @@ let postcss = require('postcss')
 
 const PREFERS_COLOR = /^\(\s*prefers-color-scheme\s*:\s*dark\s*\)$/
 
+function checkClass (cls) {
+  if (typeof cls !== 'undefined' && cls.startsWith('.')) {
+    let fixed = cls.replace(/^./, '')
+    throw new Error(
+      `Replace "${ cls }" to "${ fixed }" in postcss-dark-theme-class option`
+    )
+  }
+}
+
 module.exports = postcss.plugin('postcss-dark-theme-class', (opts = { }) => {
+  checkClass(opts.darkClass)
+  checkClass(opts.lightClass)
+
   let dark = '.' + (opts.darkClass || 'is-dark')
   let light = ':not(.' + (opts.lightClass || 'is-light') + ')'
 
