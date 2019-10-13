@@ -1,7 +1,7 @@
 # PostCSS Dark Theme Class
 
-[PostCSS] plugin to copy CSS from dark theme media query to special class
-(by default `html.is-dark`).
+[PostCSS] plugin to make manual switcher for dark theme by copying styles
+from media query to special class.
 
 [PostCSS]: https://github.com/postcss/postcss
 
@@ -18,10 +18,10 @@
 
 ```css
 @media (prefers-color-scheme: dark) {
-  :root { // <html> for HTML documents
+  :root:not(.is-light) { // <html> for HTML documents
     --text-color: white
   }
-  body {
+  html:not(.is-light) body {
     background: black
   }
 }
@@ -32,6 +32,10 @@ html.is-dark body {
   background: black
 }
 ```
+
+By default (without classes on `html`), website will use browser dark/light
+theme. If user want to use dark theme, you set `html.is-dark` class.
+If user want to force light theme, you use `html.is-light`.
 
 
 ## Usage
