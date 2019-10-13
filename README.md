@@ -33,6 +33,16 @@ html.is-dark body {
 }
 ```
 
+
+## Usage
+
+```js
+postcss([ require('postcss-dark-theme-class') ])
+```
+
+See [PostCSS] docs for examples for your environment.
+
+
 ## Options
 
 ### `darkClass`
@@ -42,11 +52,3 @@ Type: `string`.
 Default: `is-dark`.
 
 `html`’s class, which will switch dark theme.
-
-## Usage
-
-```js
-postcss([ require('postcss-dark-theme-class') ])
-```
-
-See [PostCSS] docs for examples for your environment.
