@@ -7,7 +7,7 @@
 
 ```css
 @media (prefers-color-scheme: dark) {
-  html {
+  :root { // <html> for HTML documents
     --text-color: white
   }
   body {
@@ -18,14 +18,14 @@
 
 ```css
 @media (prefers-color-scheme: dark) {
-  html {
+  :root { // <html> for HTML documents
     --text-color: white
   }
   body {
     background: black
   }
 }
-html.is-dark {
+:root.is-dark { // <html> for HTML documents
   --text-color: white
 }
 html.is-dark body {
