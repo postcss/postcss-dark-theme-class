@@ -1,6 +1,6 @@
 # PostCSS Dark Theme Class
 
-[PostCSS] plugin to make manual switcher for dark theme by copying styles
+[PostCSS] plugin to make switcher to force dark or light theme by copying styles
 from media query to special class.
 
 [PostCSS]: https://github.com/postcss/postcss

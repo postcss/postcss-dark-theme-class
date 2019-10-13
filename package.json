@@ -1,7 +1,7 @@
 {
   "name": "postcss-dark-theme-class",
   "version": "0.2.0",
-  "description": "PostCSS plugin to copy CSS from dark theme media query to special class",
+  "description": "PostCSS plugin to make dark/light theme switcher by copying styles from media query to special class",
   "keywords": [
     "postcss",
     "css",
