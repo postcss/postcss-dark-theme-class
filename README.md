@@ -67,14 +67,18 @@ to switcher state:
 ```js
 let html = document.documentElement
 themeSwitcher.addEventListener('change', () => {
+
   if (themeSwitcher.value === 'auto') {
-    themeSwitcher.classList.remove('is-dark', 'is-light')
+    html.classList.remove('is-dark', 'is-light')
+
   } else if (themeSwitcher.value === 'light') {
-    themeSwitcher.classList.add('is-light')
-    themeSwitcher.classList.remove('is-dark')
+    html.classList.add('is-light')
+    html.classList.remove('is-dark')
+
   } else if (themeSwitcher.value === 'dark') {
-    themeSwitcher.classList.add('is-dark')
-    themeSwitcher.classList.remove('is-light')
+    html.classList.add('is-dark')
+    html.classList.remove('is-light')
+
   }
 })
 ```
