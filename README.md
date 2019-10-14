@@ -7,7 +7,7 @@ from media query to special class.
 
 ```css
 @media (prefers-color-scheme: dark) {
-  :root { // <html> for HTML documents
+  :root { /* :root is <html> for HTML documents */
     --text-color: white
   }
   body {
@@ -18,14 +18,14 @@ from media query to special class.
 
 ```css
 @media (prefers-color-scheme: dark) {
-  :root:not(.is-light) { // <html> for HTML documents
+  :root:not(.is-light) { /* :root is <html> for HTML documents */
     --text-color: white
   }
   html:not(.is-light) body {
     background: black
   }
 }
-:root.is-dark { // <html> for HTML documents
+:root.is-dark { /* :root is <html> for HTML documents */
   --text-color: white
 }
 html.is-dark body {
