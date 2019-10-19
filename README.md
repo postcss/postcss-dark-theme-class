@@ -64,8 +64,18 @@ dark, and auto.
 **Step 4:** Set `is-dark` and `is-light` classes to `<html>` according
 to switcher state:
 
+```html
+<select name="themeSwitcher" id="themeSwitcher">
+  <option value="auto">auto</option>
+  <option value="light">light theme</option>
+  <option value="dark">dark theme</option>
+</select>
+```
+
 ```js
-let html = document.documentElement
+const html = document.documentElement
+const themeSwitcher = document.getElementById('themeSwitcher')
+
 themeSwitcher.addEventListener('change', () => {
 
   if (themeSwitcher.value === 'auto') {
