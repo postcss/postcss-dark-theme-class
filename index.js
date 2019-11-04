@@ -1,7 +1,7 @@
 let postcss = require('postcss')
 
 const PREFERS_COLOR_ONLY = /^\(\s*prefers-color-scheme\s*:\s*dark\s*\)$/
-const PREFERS_COLOR = /\(\s*prefers-color-scheme\s*:\s*dark\s*\)/
+const PREFERS_COLOR = /\(\s*prefers-color-scheme\s*:\s*dark\s*\)/g
 
 function checkClass (cls) {
   if (typeof cls !== 'undefined' && cls.startsWith('.')) {
@@ -67,8 +67,9 @@ module.exports = postcss.plugin('postcss-dark-theme-class', (opts = { }) => {
           let fixed = atrule.clone({
             params: atrule.params
               .replace(PREFERS_COLOR, '')
-              .replace(/^\s*and\s*/i, '')
-              .replace(/\s*and\s*$/i, '')
+              .replace(/\s+and\s+and/i, ' and')
+              .replace(/^\s*and\s+/i, '')
+              .replace(/\s+and\s*$/i, '')
           })
           atrule.after(fixed)
           processNodes(fixed, dark)

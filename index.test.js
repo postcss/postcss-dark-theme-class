@@ -76,6 +76,17 @@ it('supports combined queries', () => run(
   }`
 ))
 
+it('supports combined queries in the middle', () => run(
+  `@media (width > 0) and (prefers-color-scheme: dark) and (width > 0) {
+    a { color: white }
+  }`,
+  `@media (width > 0) and (prefers-color-scheme: dark) and (width > 0) {
+    html:not(.is-light) a { color: white }
+  }@media (width > 0) and (width > 0) {
+    html.is-dark a { color: white }
+  }`
+))
+
 it('allows to change class', () => run(
   `@media (prefers-color-scheme: dark) {
     a { color: white }
