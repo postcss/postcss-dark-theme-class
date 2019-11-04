@@ -16,17 +16,17 @@
   "license": "MIT",
   "repository": "postcss/postcss-dark-theme-class",
   "dependencies": {
-    "postcss": "^7.0.18"
+    "postcss": "^7.0.21"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^33.0.0",
+    "@logux/eslint-config": "^34.0.0",
     "clean-publish": "^1.1.2",
-    "eslint": "^6.5.1",
+    "eslint": "^6.6.0",
     "eslint-config-postcss": "^3.0.7",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-es5": "^1.4.1",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jest": "^22.19.0",
+    "eslint-plugin-jest": "^23.0.2",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prefer-let": "^1.0.1",
     "eslint-plugin-promise": "^4.2.1",

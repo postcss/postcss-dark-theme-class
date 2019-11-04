@@ -79,8 +79,8 @@ it('allows to change class', () => run(
 it('throws on dot in class options', () => {
   expect(() => {
     run('', '', { darkClass: '.dark', lightClass: 'light' })
-  }).toThrowError(/"dark"/)
+  }).toThrow(/"dark"/)
   expect(() => {
     run('', '', { darkClass: 'dark', lightClass: '.light' })
-  }).toThrowError(/"light"/)
+  }).toThrow(/"light"/)
 })
