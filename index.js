@@ -1,6 +1,7 @@
 let postcss = require('postcss')
 
-const PREFERS_COLOR = /^\(\s*prefers-color-scheme\s*:\s*dark\s*\)$/
+const PREFERS_COLOR_ONLY = /^\(\s*prefers-color-scheme\s*:\s*dark\s*\)$/
+const PREFERS_COLOR = /\(\s*prefers-color-scheme\s*:\s*dark\s*\)/
 
 function checkClass (cls) {
   if (typeof cls !== 'undefined' && cls.startsWith('.')) {
@@ -43,24 +44,37 @@ module.exports = postcss.plugin('postcss-dark-theme-class', (opts = { }) => {
   return root => {
     root.walkAtRules(atrule => {
       if (atrule.name !== 'media' || !atrule.params.includes('dark')) return
-      if (!PREFERS_COLOR.test(atrule.params)) return
-
-      let last = atrule
-      atrule.each(node => {
-        let fixed
-        if (node.type === 'atrule') {
-          fixed = node.clone()
-          processNodes(fixed, dark)
-          processNodes(node, light)
-        } else if (node.type === 'rule') {
-          fixed = node.clone({
-            selectors: processSelectors(node.selectors, dark)
+      let params = atrule.params
+      if (PREFERS_COLOR_ONLY.test(params)) {
+        let last = atrule
+        atrule.each(node => {
+          let fixed
+          if (node.type === 'atrule') {
+            fixed = node.clone()
+            processNodes(fixed, dark)
+            processNodes(node, light)
+          } else if (node.type === 'rule') {
+            fixed = node.clone({
+              selectors: processSelectors(node.selectors, dark)
+            })
+            node.selectors = processSelectors(node.selectors, light)
+          }
+          last.after(fixed)
+          last = fixed
+        })
+      } else if (PREFERS_COLOR.test(params) && params.includes(' and ')) {
+        if (atrule.params.includes(' and ')) {
+          let fixed = atrule.clone({
+            params: atrule.params
+              .replace(PREFERS_COLOR, '')
+              .replace(/^\s*and\s*/i, '')
+              .replace(/\s*and\s*$/i, '')
           })
-          node.selectors = processSelectors(node.selectors, light)
+          atrule.after(fixed)
+          processNodes(fixed, dark)
+          processNodes(atrule, light)
         }
-        last.after(fixed)
-        last = fixed
-      })
+      }
     })
   }
 })

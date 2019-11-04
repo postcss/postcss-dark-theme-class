@@ -65,6 +65,17 @@ it('ignores whitespaces', () => run(
     html.is-dark a { color: white }`
 ))
 
+it('supports combined queries', () => run(
+  `@media (min-width: 60px) and (prefers-color-scheme: dark) {
+    a { color: white }
+  }`,
+  `@media (min-width: 60px) and (prefers-color-scheme: dark) {
+    html:not(.is-light) a { color: white }
+  }@media (min-width: 60px) {
+    html.is-dark a { color: white }
+  }`
+))
+
 it('allows to change class', () => run(
   `@media (prefers-color-scheme: dark) {
     a { color: white }
