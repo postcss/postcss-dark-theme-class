@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.4
+* Replace `lightClass` with `lightSelector` (by Mattia Astorino).
+* Replace `darkClass` with `darkSelector` (by Mattia Astorino).
+
 ## 0.3
 * Add support for queries like
   `(min-width: 600px) and (prefers-color-scheme: dark)`.
