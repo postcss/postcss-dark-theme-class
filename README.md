@@ -95,7 +95,6 @@ themeSwitcher.addEventListener('change', () => {
 
 [official docs]: https://github.com/postcss/postcss#usage
 
-
 ## Options
 
 ```js
@@ -113,10 +112,12 @@ module.exports = {
 
 Type: `string`. Default: `is-dark`.
 
-Any `CSS`'s valid selector, which will switch dark theme.
+CSS’s valid selector for `<html>` (alias for `:root`), which will switch dark theme.
+Use `darkSelector: '[data-theme="dark"]'` if you will switch theme by setting `<html data-theme=dark>`
 
 ### `lightSelector`
 
 Type: `string`. Default: `is-light`.
 
 Any `CSS`'s valid selector, which will switch light theme.
+Use `lightSelector: '[data-theme="light"]'` if you will switch theme by setting `<html data-theme="light">`
