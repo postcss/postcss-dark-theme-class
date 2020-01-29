@@ -95,14 +95,14 @@ it('allows to change class', () => run(
     html:not(.light-theme) a { color: white }
   }
     html.dark-theme a { color: white }`,
-  { darkClass: 'dark-theme', lightClass: 'light-theme' }
+  { darkSelector: '.dark-theme', lightSelector: '.light-theme' }
 ))
 
-it('throws on dot in class options', () => {
+it('throws on old options', () => {
   expect(() => {
-    run('', '', { darkClass: '.dark', lightClass: 'light' })
-  }).toThrow(/"dark"/)
+    run('', '', { darkClass: 'dark', lightSelector: '.light' })
+  }).toThrow("Update darkClass: 'dark' to darkSelector: '.dark'")
   expect(() => {
-    run('', '', { darkClass: 'dark', lightClass: '.light' })
-  }).toThrow(/"light"/)
+    run('', '', { darkSelector: '.dark', lightClass: 'light' })
+  }).toThrow("Update lightClass: 'light' to lightSelector: '.light'")
 })

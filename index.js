@@ -3,21 +3,27 @@ let postcss = require('postcss')
 const PREFERS_COLOR_ONLY = /^\(\s*prefers-color-scheme\s*:\s*dark\s*\)$/
 const PREFERS_COLOR = /\(\s*prefers-color-scheme\s*:\s*dark\s*\)/g
 
-function checkClass (cls) {
-  if (typeof cls !== 'undefined' && cls.startsWith('.')) {
-    let fixed = cls.replace(/^./, '')
+function checkOptionName (opts, value) {
+  let optName = Object.keys(opts).find(key => opts[key] === value)
+
+  if (typeof value !== 'undefined' && optName === 'darkClass') {
     throw new Error(
-      `Replace "${ cls }" to "${ fixed }" in postcss-dark-theme-class option`
+      `Update ${ optName }: '${ value }' to darkSelector: '.${ value }'`
+    )
+  }
+  if (typeof value !== 'undefined' && optName === 'lightClass') {
+    throw new Error(
+      `Update ${ optName }: '${ value }' to lightSelector: '.${ value }'`
     )
   }
 }
 
 module.exports = postcss.plugin('postcss-dark-theme-class', (opts = { }) => {
-  checkClass(opts.darkClass)
-  checkClass(opts.lightClass)
+  checkOptionName(opts, opts.darkClass)
+  checkOptionName(opts, opts.lightClass)
 
-  let dark = '.' + (opts.darkClass || 'is-dark')
-  let light = ':not(.' + (opts.lightClass || 'is-light') + ')'
+  let dark = opts.darkSelector || '.is-dark'
+  let light = `:not(${ opts.lightSelector || '.is-light' })`
 
   function processSelectors (selectors, add) {
     return selectors.map(i => {
