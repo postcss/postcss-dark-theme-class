@@ -113,10 +113,10 @@ module.exports = {
 
 Type: `string`. Default: `is-dark`.
 
-`css`'s valid selector, which will switch dark theme.
+Any `CSS`'s valid selector, which will switch dark theme.
 
 ### `lightSelector`
 
 Type: `string`. Default: `is-light`.
 
-`css`'s valid selector, which will switch light theme.
+Any `CSS`'s valid selector, which will switch light theme.
