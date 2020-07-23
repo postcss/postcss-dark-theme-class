@@ -8,22 +8,22 @@ function checkOptionName (opts, value) {
 
   if (typeof value !== 'undefined' && optName === 'darkClass') {
     throw new Error(
-      `Update ${ optName }: '${ value }' to darkSelector: '.${ value }'`
+      `Update ${optName}: '${value}' to darkSelector: '.${value}'`
     )
   }
   if (typeof value !== 'undefined' && optName === 'lightClass') {
     throw new Error(
-      `Update ${ optName }: '${ value }' to lightSelector: '.${ value }'`
+      `Update ${optName}: '${value}' to lightSelector: '.${value}'`
     )
   }
 }
 
-module.exports = postcss.plugin('postcss-dark-theme-class', (opts = { }) => {
+module.exports = postcss.plugin('postcss-dark-theme-class', (opts = {}) => {
   checkOptionName(opts, opts.darkClass)
   checkOptionName(opts, opts.lightClass)
 
   let dark = opts.darkSelector || '.is-dark'
-  let light = `:not(${ opts.lightSelector || '.is-light' })`
+  let light = `:not(${opts.lightSelector || '.is-light'})`
 
   function processSelectors (selectors, add) {
     return selectors.map(i => {
@@ -32,7 +32,7 @@ module.exports = postcss.plugin('postcss-dark-theme-class', (opts = { }) => {
       } else if (i.includes(':root')) {
         return i.replace(/:root/g, ':root' + add)
       } else {
-        return `html${ add } ${ i }`
+        return `html${add} ${i}`
       }
     })
   }
