@@ -2,6 +2,4 @@ yarn-error.log
 yarn.lock
 
 *.test.js
-.travis.yml
-.editorconfig
 coverage/

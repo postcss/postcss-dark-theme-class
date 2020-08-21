@@ -8,7 +8,7 @@ function run (input, output, opts) {
   expect(result.warnings()).toHaveLength(0)
 }
 
-it('replaces selectors', () =>
+it('replaces selectors', () => {
   run(
     `@media (prefers-color-scheme:dark) {
     html.is-a,
@@ -26,9 +26,10 @@ it('replaces selectors', () =>
     html.is-dark,
     :root.is-dark,
     html.is-dark a { }`
-  ))
+  )
+})
 
-it('processes inner at-rules', () =>
+it('processes inner at-rules', () => {
   run(
     `@media (prefers-color-scheme: dark) {
     @media (min-width: 500px) { a { } }
@@ -40,9 +41,10 @@ it('processes inner at-rules', () =>
   }
     @media (min-width: 500px) { html.is-dark a { } }
     @media (min-width: 500px) { @media (print) { html.is-dark a { } } }`
-  ))
+  )
+})
 
-it('checks media params deeply', () =>
+it('checks media params deeply', () => {
   run(
     `@media (x-dark: true) {
     a { color: white }
@@ -56,9 +58,10 @@ it('checks media params deeply', () =>
   @unknown (prefers-color-scheme: dark) {
     a { color: white }
   }`
-  ))
+  )
+})
 
-it('ignores whitespaces', () =>
+it('ignores whitespaces', () => {
   run(
     `@media ( prefers-color-scheme:dark ) {
     a { color: white }
@@ -67,9 +70,10 @@ it('ignores whitespaces', () =>
     html:not(.is-light) a { color: white }
   }
     html.is-dark a { color: white }`
-  ))
+  )
+})
 
-it('supports combined queries', () =>
+it('supports combined queries', () => {
   run(
     `@media (min-width: 60px) and (prefers-color-scheme: dark) {
     a { color: white }
@@ -79,9 +83,10 @@ it('supports combined queries', () =>
   }@media (min-width: 60px) {
     html.is-dark a { color: white }
   }`
-  ))
+  )
+})
 
-it('supports combined queries in the middle', () =>
+it('supports combined queries in the middle', () => {
   run(
     `@media (width > 0) and (prefers-color-scheme: dark) and (width > 0) {
     a { color: white }
@@ -91,9 +96,10 @@ it('supports combined queries in the middle', () =>
   }@media (width > 0) and (width > 0) {
     html.is-dark a { color: white }
   }`
-  ))
+  )
+})
 
-it('allows to change class', () =>
+it('allows to change class', () => {
   run(
     `@media (prefers-color-scheme: dark) {
     a { color: white }
@@ -103,13 +109,5 @@ it('allows to change class', () =>
   }
     html.dark-theme a { color: white }`,
     { darkSelector: '.dark-theme', lightSelector: '.light-theme' }
-  ))
-
-it('throws on old options', () => {
-  expect(() => {
-    run('', '', { darkClass: 'dark', lightSelector: '.light' })
-  }).toThrow("Update darkClass: 'dark' to darkSelector: '.dark'")
-  expect(() => {
-    run('', '', { darkSelector: '.dark', lightClass: 'light' })
-  }).toThrow("Update lightClass: 'light' to lightSelector: '.light'")
+  )
 })

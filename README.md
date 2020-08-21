@@ -1,5 +1,9 @@
 # PostCSS Dark Theme Class
 
+<img align="right" width="135" height="95"
+     title="Philosopher’s stone, logo of PostCSS"
+     src="https://postcss.org/logo-leftp.svg">
+
 [PostCSS] plugin to make switcher to force dark or light theme by copying styles
 from media query to special class.
 
