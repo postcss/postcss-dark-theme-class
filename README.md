@@ -49,14 +49,20 @@ If user want to force light theme, you use `html.is-light`.
 
 ## Usage
 
-**Step 1:** Check you project for existed PostCSS config: `postcss.config.js`
+**Step1:** Install plugin:
+
+```sh
+npm install --save-dev postcss postcss-dark-theme-class
+```
+
+**Step 2:** Check you project for existed PostCSS config: `postcss.config.js`
 in the project root, `"postcss"` section in `package.json`
 or `postcss` in bundle config.
 
 If you do not use PostCSS, add it according to [official docs]
 and set this plugin in settings.
 
-**Step 2:** Add the plugin to plugins list:
+**Step 3:** Add the plugin to plugins list:
 
 ```diff
 module.exports = {
@@ -67,10 +73,10 @@ module.exports = {
 }
 ```
 
-**Step 3:** Add theme switcher to UI. We recommend to have 3 states: light,
+**Step 4:** Add theme switcher to UI. We recommend to have 3 states: light,
 dark, and auto.
 
-**Step 4:** Set `is-dark` and `is-light` classes to `<html>` according
+**Step 5:** Set `is-dark` and `is-light` classes to `<html>` according
 to switcher state:
 
 ```html
