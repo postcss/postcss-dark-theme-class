@@ -49,7 +49,7 @@ If user want to force light theme, you use `html.is-light`.
 
 ## Usage
 
-**Step1:** Install plugin:
+**Step 1:** Install plugin:
 
 ```sh
 npm install --save-dev postcss postcss-dark-theme-class
