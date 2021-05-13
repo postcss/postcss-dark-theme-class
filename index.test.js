@@ -73,6 +73,24 @@ it('ignores whitespaces', () => {
   )
 })
 
+it('reserve comments', () => {
+  run(
+    `@media (prefers-color-scheme:dark) {
+    /* some comments */
+    a { color: white }
+    @media (min-width: 500px) { /* another comments */ a { } }
+  }`,
+    `@media (prefers-color-scheme:dark) {
+    /* some comments */
+    html:not(.is-light) a { color: white }
+    @media (min-width: 500px) { /* another comments */ html:not(.is-light) a { } }
+  }
+    /* some comments */
+    html.is-dark a { color: white }
+    @media (min-width: 500px) { /* another comments */ html.is-dark a { } }`
+  )
+})
+
 it('supports combined queries', () => {
   run(
     `@media (min-width: 60px) and (prefers-color-scheme: dark) {
