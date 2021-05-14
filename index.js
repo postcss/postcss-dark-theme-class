@@ -46,6 +46,8 @@ module.exports = (opts = {}) => {
                 selectors: processSelectors(node.selectors, dark)
               })
               node.selectors = processSelectors(node.selectors, light)
+            } else if (node.type === 'comment') {
+              fixed = node.clone()
             }
             last.after(fixed)
             last = fixed
