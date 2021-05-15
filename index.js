@@ -5,7 +5,7 @@ module.exports = (opts = {}) => {
   let dark = opts.darkSelector || '.is-dark'
   let light = `:not(${opts.lightSelector || '.is-light'})`
 
-  function processSelectors (selectors, add) {
+  function processSelectors(selectors, add) {
     return selectors.map(i => {
       if (i.includes('html')) {
         return i.replace(/html/g, 'html' + add)
@@ -17,7 +17,7 @@ module.exports = (opts = {}) => {
     })
   }
 
-  function processNodes (parent, add) {
+  function processNodes(parent, add) {
     parent.each(node => {
       if (node.type === 'atrule') {
         processNodes(node, add)
