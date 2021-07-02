@@ -26,23 +26,23 @@
     "postcss": "^8.2.14"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^45.4.1",
+    "@logux/eslint-config": "^45.4.6",
     "clean-publish": "^2.2.0",
-    "eslint": "^7.25.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.23.1",
+    "eslint": "^7.29.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-let": "^1.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-security": "^1.4.0",
-    "eslint-plugin-unicorn": "^32.0.1",
-    "jest": "^26.6.3",
+    "eslint-plugin-unicorn": "^34.0.1",
+    "jest": "^27.0.6",
     "lint-staged": "^11.0.0",
-    "postcss": "^8.2.14",
+    "postcss": "^8.3.5",
     "postcss-sharec-config": "^0.4.1",
-    "prettier": "^2.2.1",
-    "simple-git-hooks": "^2.4.1"
+    "prettier": "^2.3.2",
+    "simple-git-hooks": "^2.5.1"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
