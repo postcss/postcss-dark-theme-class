@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.6
+* Added `rootSelector` option.
+
 ## 0.5.2
 * Fixed parsing comments in at-rule (by @nobuhikosawai).
 
