@@ -62,7 +62,10 @@
     ]
   },
   "eslintConfig": {
-    "extends": "@logux/eslint-config"
+    "extends": "@logux/eslint-config",
+    "rules": {
+      "security/detect-non-literal-regexp": "off"
+    }
   },
   "jest": {
     "testEnvironment": "node",

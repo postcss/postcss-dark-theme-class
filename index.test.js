@@ -129,3 +129,43 @@ it('allows to change class', () => {
     { darkSelector: '.dark-theme', lightSelector: '.light-theme' }
   )
 })
+
+it('changes root selectors', () => {
+  run(
+    `@media (prefers-color-scheme: dark) {
+    html, .storybook { --bg: black }
+    p { color: white }
+  }
+  html, .storybook { --bg: white }
+  p { color: black }`,
+    `@media (prefers-color-scheme: dark) {
+    html:not(.is-light), .storybook:not(.is-light) { --bg: black }
+    html:not(.is-light) p,.storybook:not(.is-light) p { color: white }
+  }
+    html.is-dark, .storybook.is-dark { --bg: black }
+    html.is-dark p,.storybook.is-dark p { color: white }
+  html, .storybook { --bg: white }
+  p { color: black }`,
+    { rootSelector: ['html', ':root', '.storybook'] }
+  )
+})
+
+it('changes root selector', () => {
+  run(
+    `@media (prefers-color-scheme: dark) {
+    body { --bg: black }
+    p { color: white }
+  }
+  body { --bg: white }
+  p { color: black }`,
+    `@media (prefers-color-scheme: dark) {
+    body:not(.is-light) { --bg: black }
+    body:not(.is-light) p { color: white }
+  }
+    body.is-dark { --bg: black }
+    body.is-dark p { color: white }
+  body { --bg: white }
+  p { color: black }`,
+    { rootSelector: 'body' }
+  )
+})
