@@ -169,3 +169,19 @@ it('changes root selector', () => {
     { rootSelector: 'body' }
   )
 })
+
+it('ignores already transformed rules', () => {
+  run(
+    `@media (prefers-color-scheme: dark) {
+    :root:not(.is-light) { --bg: black }
+    p { color: white }
+  }
+  :root { --bg: white }`,
+    `@media (prefers-color-scheme: dark) {
+    :root:not(.is-light) { --bg: black }
+    html:not(.is-light) p { color: white }
+  }
+    html.is-dark p { color: white }
+  :root { --bg: white }`
+  )
+})

@@ -64,15 +64,19 @@ module.exports = (opts = {}) => {
               processNodes(fixed, dark)
               processNodes(node, light)
             } else if (node.type === 'rule') {
-              fixed = node.clone({
-                selectors: processSelectors(node.selectors, dark)
-              })
-              node.selectors = processSelectors(node.selectors, light)
+              if (!node.selector.includes(light)) {
+                fixed = node.clone({
+                  selectors: processSelectors(node.selectors, dark)
+                })
+                node.selectors = processSelectors(node.selectors, light)
+              }
             } else if (node.type === 'comment') {
               fixed = node.clone()
             }
-            last.after(fixed)
-            last = fixed
+            if (fixed) {
+              last.after(fixed)
+              last = fixed
+            }
           })
         } else if (PREFERS_COLOR.test(params) && params.includes(' and ')) {
           if (atrule.params.includes(' and ')) {
