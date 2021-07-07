@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.7
+* Added already trsanformed rules ignoring.
+
 ## 0.6
 * Added `rootSelector` option.
 
