@@ -51,7 +51,7 @@ module.exports = (opts = {}) => {
 
   return {
     postcssPlugin: 'postcss-dark-theme-class',
-    AtRule: {
+    AtRuleExit: {
       media: atrule => {
         if (!atrule.params.includes('dark')) return
         let params = atrule.params
