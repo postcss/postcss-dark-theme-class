@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.7.1
+* Fixed compatibility with other PostCSS plugins.
+
 ## 0.7
 * Added already trsanformed rules ignoring.
 
