@@ -4,11 +4,13 @@
      title="Philosopher’s stone, logo of PostCSS"
      src="https://postcss.org/logo-leftp.svg">
 
-[PostCSS] plugin to make switcher to force dark or light theme by copying styles
-from media query to special class.
+CSS solution for light/dark/auto theme switcher for websites.
 
 * It doesn’t have [FART] **flash of light theme** during JS initialization.
-* **Pure CSS** solution. You need JS only to set HTML class, when user
+* **Pure CSS** solution. You need JS only to set HTML class, when user.
+
+[PostCSS] plugin to make switcher to force dark or light theme by copying styles
+from media query to special class.
 
 [PostCSS]: https://github.com/postcss/postcss
 [FART]: https://css-tricks.com/flash-of-inaccurate-color-theme-fart/
