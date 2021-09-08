@@ -8,7 +8,7 @@
 from media query to special class.
 
 * It doesn’t have [FART] **flash of light theme** during JS initialization.
-* **Pure CSS** solution. You need JS only to set HTML class once.
+* **Pure CSS** solution. You need JS only to set HTML class, when user
 
 [PostCSS]: https://github.com/postcss/postcss
 [FART]: https://css-tricks.com/flash-of-inaccurate-color-theme-fart/
@@ -110,6 +110,35 @@ themeSwitcher.addEventListener('change', () => {
 
   }
 })
+```
+
+**Step 6:** Save user’s choice in `localStorage`.
+
+
+```diff
+  const html = document.documentElement
+  const themeSwitcher = document.getElementById('themeSwitcher')
+
+  themeSwitcher.addEventListener('change', () => {
++   localStorage.theme = themeSwitcher.value
+
+    if (themeSwitcher.value === 'auto') {
+      html.classList.remove('is-dark', 'is-light')
+
+    } else if (themeSwitcher.value === 'light') {
+      html.classList.add('is-light')
+      html.classList.remove('is-dark')
+
+    } else if (themeSwitcher.value === 'dark') {
+      html.classList.add('is-dark')
+      html.classList.remove('is-light')
+
+    }
+  })
+
++ if (localStorage.theme) {
++   themeSwitcher.change(localStorage.theme)
++ }
 ```
 
 [official docs]: https://github.com/postcss/postcss#usage
