@@ -16,6 +16,8 @@ from media query to special class.
 [FART]: https://css-tricks.com/flash-of-inaccurate-color-theme-fart/
 
 ```css
+/* Input CSS */
+
 @media (prefers-color-scheme: dark) {
   :root { /* :root is <html> for HTML documents */
     --text-color: white
@@ -27,6 +29,8 @@ from media query to special class.
 ```
 
 ```css
+/* Output CSS */
+
 @media (prefers-color-scheme: dark) {
   :root:not(.is-light) { /* :root is <html> for HTML documents */
     --text-color: white
