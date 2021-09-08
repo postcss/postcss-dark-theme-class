@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.7.2
+* Improved docs.
+
 ## 0.7.1
 * Fixed compatibility with other PostCSS plugins.
 
