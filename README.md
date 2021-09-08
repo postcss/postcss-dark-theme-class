@@ -7,6 +7,9 @@
 CSS solution for light/dark/auto theme switcher for websites.
 
 * It doesn’t have [FART] **flash of light theme** during JS initialization.
+* By default, theme will be synchronized with OS theme.
+  **Automatic theme** provide better UX for users with theme switching
+  by subset/sunrise (all operation systems now have theme switching schedule).
 * **Pure CSS** solution. You need JS only to set HTML class, when user.
 
 [PostCSS] plugin to make switcher to force dark or light theme by copying styles
