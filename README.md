@@ -7,7 +7,11 @@
 [PostCSS] plugin to make switcher to force dark or light theme by copying styles
 from media query to special class.
 
+* It doesn’t have [FART] **flash of light theme** during JS initialization.
+* **Pure CSS** solution. You need JS only to set HTML class once.
+
 [PostCSS]: https://github.com/postcss/postcss
+[FART]: https://css-tricks.com/flash-of-inaccurate-color-theme-fart/
 
 ```css
 @media (prefers-color-scheme: dark) {
@@ -81,9 +85,9 @@ to switcher state:
 
 ```html
 <select name="themeSwitcher" id="themeSwitcher">
-  <option value="auto">auto</option>
-  <option value="light">light theme</option>
-  <option value="dark">dark theme</option>
+  <option value="auto">Auto</option>
+  <option value="light">Light theme</option>
+  <option value="dark">Dark theme</option>
 </select>
 ```
 
