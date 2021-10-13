@@ -21,7 +21,7 @@ from media query to special class.
 /* Input CSS */
 
 @media (prefers-color-scheme: dark) {
-  :root { /* :root is <html> for HTML documents */
+  html {
     --text-color: white
   }
   body {
@@ -34,14 +34,14 @@ from media query to special class.
 /* Output CSS */
 
 @media (prefers-color-scheme: dark) {
-  :root:not(.is-light) { /* :root is <html> for HTML documents */
+  html:not(.is-light) {
     --text-color: white
   }
   html:not(.is-light) body {
     background: black
   }
 }
-:root.is-dark { /* :root is <html> for HTML documents */
+html.is-dark {
   --text-color: white
 }
 html.is-dark body {
