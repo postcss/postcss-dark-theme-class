@@ -1,14 +1,16 @@
+let { equal } = require('uvu/assert')
+let { test } = require('uvu')
 let postcss = require('postcss')
 
 let plugin = require('./')
 
 function run(input, output, opts) {
   let result = postcss([plugin(opts)]).process(input, { from: undefined })
-  expect(result.css).toEqual(output)
-  expect(result.warnings()).toHaveLength(0)
+  equal(result.css, output)
+  equal(result.warnings().length, 0)
 }
 
-it('replaces selectors', () => {
+test('replaces selectors', () => {
   run(
     `@media (prefers-color-scheme:dark) {
     html.is-a,
@@ -29,7 +31,7 @@ it('replaces selectors', () => {
   )
 })
 
-it('processes inner at-rules', () => {
+test('processes inner at-rules', () => {
   run(
     `@media (prefers-color-scheme: dark) {
     @media (min-width: 500px) { a { } }
@@ -44,7 +46,7 @@ it('processes inner at-rules', () => {
   )
 })
 
-it('checks media params deeply', () => {
+test('checks media params deeply', () => {
   run(
     `@media (x-dark: true) {
     a { color: white }
@@ -61,7 +63,7 @@ it('checks media params deeply', () => {
   )
 })
 
-it('ignores whitespaces', () => {
+test('ignores whitespaces', () => {
   run(
     `@media ( prefers-color-scheme:dark ) {
     a { color: white }
@@ -73,7 +75,7 @@ it('ignores whitespaces', () => {
   )
 })
 
-it('reserve comments', () => {
+test('reserve comments', () => {
   run(
     `@media (prefers-color-scheme:dark) {
     /* some comments */
@@ -91,7 +93,7 @@ it('reserve comments', () => {
   )
 })
 
-it('supports combined queries', () => {
+test('supports combined queries', () => {
   run(
     `@media (min-width: 60px) and (prefers-color-scheme: dark) {
     a { color: white }
@@ -104,7 +106,7 @@ it('supports combined queries', () => {
   )
 })
 
-it('supports combined queries in the middle', () => {
+test('supports combined queries in the middle', () => {
   run(
     `@media (width > 0) and (prefers-color-scheme: dark) and (width > 0) {
     a { color: white }
@@ -117,7 +119,7 @@ it('supports combined queries in the middle', () => {
   )
 })
 
-it('allows to change class', () => {
+test('allows to change class', () => {
   run(
     `@media (prefers-color-scheme: dark) {
     a { color: white }
@@ -130,7 +132,7 @@ it('allows to change class', () => {
   )
 })
 
-it('changes root selectors', () => {
+test('changes root selectors', () => {
   run(
     `@media (prefers-color-scheme: dark) {
     html, .storybook { --bg: black }
@@ -150,7 +152,7 @@ it('changes root selectors', () => {
   )
 })
 
-it('changes root selector', () => {
+test('changes root selector', () => {
   run(
     `@media (prefers-color-scheme: dark) {
     body { --bg: black }
@@ -170,7 +172,7 @@ it('changes root selector', () => {
   )
 })
 
-it('ignores already transformed rules', () => {
+test('ignores already transformed rules', () => {
   run(
     `@media (prefers-color-scheme: dark) {
     :root:not(.is-light) { --bg: black }
@@ -185,3 +187,5 @@ it('ignores already transformed rules', () => {
   :root { --bg: white }`
   )
 })
+
+test.run()
