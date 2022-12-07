@@ -61,6 +61,7 @@
       "**/*.test.*"
     ],
     "lines": 100,
+    "reporter": "lcov",
     "check-coverage": true
   },
   "clean-publish": {
