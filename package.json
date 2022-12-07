@@ -51,10 +51,7 @@
     "trailingComma": "none"
   },
   "eslintConfig": {
-    "extends": "@logux/eslint-config",
-    "rules": {
-      "security/detect-non-literal-regexp": "off"
-    }
+    "extends": "@logux/eslint-config"
   },
   "c8": {
     "exclude": [
