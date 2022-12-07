@@ -67,7 +67,7 @@ If user want to force light theme, you use `html.is-light`.
 npm install --save-dev postcss postcss-dark-theme-class
 ```
 
-**Step 2:** Check you project for existed PostCSS config: `postcss.config.js`
+**Step 2:** Check your project for existing PostCSS config: `postcss.config.js`
 in the project root, `"postcss"` section in `package.json`
 or `postcss` in bundle config.
 
