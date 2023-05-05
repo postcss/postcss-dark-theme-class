@@ -145,7 +145,8 @@ themeSwitcher.addEventListener('change', () => {
   })
 
 + if (localStorage.theme) {
-+   themeSwitcher.change(localStorage.theme)
++   themeSwitcher.value = localStorage.theme ?? "auto";
++   themeSwitcher.dispatchEvent(new Event("change"));
 + }
 ```
 
