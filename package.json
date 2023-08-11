@@ -14,7 +14,9 @@
   ],
   "scripts": {
     "unit": "uvu . '\\.test\\.js$'",
-    "test": "c8 pnpm unit && eslint ."
+    "test:coverage": "c8 pnpm unit",
+    "test:lint": "eslint .",
+    "test": "pnpm run /^test:/"
   },
   "author": "Andrey Sitnik <andrey@sitnik.ru>",
   "license": "MIT",
