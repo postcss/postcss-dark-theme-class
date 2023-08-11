@@ -190,3 +190,10 @@ Use `lightSelector: '[data-theme="light"]'` if you will switch theme by setting
 Type: `string[]`, `string`. Default: `['html', ':root']`.
 
 Selector for node for CSS Custom properties and dark/light theme classes.
+
+
+## `useWhere`
+
+Type: `boolean`. Default: `true`.
+
+Should plugin wrap added selector to `:where()` to keep origin specificity.

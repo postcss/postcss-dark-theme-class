@@ -16,6 +16,8 @@ module.exports = (opts = {}) => {
   let roots = opts.rootSelector || ['html', ':root']
   if (!Array.isArray(roots)) roots = [roots]
 
+  let useWhere = opts.useWhere ?? true
+
   let uniqueRoots = roots
   if (uniqueRoots.includes('html')) {
     uniqueRoots = uniqueRoots.filter(i => i !== ':root')
@@ -27,12 +29,22 @@ module.exports = (opts = {}) => {
       for (let root of roots) {
         if (selector.includes(root)) {
           changed = true
-          selector = replaceAll(selector, root, root + add)
+          if (useWhere) {
+            selector = replaceAll(selector, root, `${root}:where(${add})`)
+          } else {
+            selector = replaceAll(selector, root, `${root}${add}`)
+          }
         }
       }
       if (!changed) {
         selector = uniqueRoots
-          .map(root => `${root}${add} ${selector}`)
+          .map(root => {
+            if (useWhere) {
+              return `:where(${root}${add}) ${selector}`
+            } else {
+              return `${root}${add} ${selector}`
+            }
+          })
           .join(',')
       }
       return selector
