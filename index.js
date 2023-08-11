@@ -50,7 +50,6 @@ module.exports = (opts = {}) => {
   }
 
   return {
-    postcssPlugin: 'postcss-dark-theme-class',
     AtRuleExit: {
       media: atrule => {
         if (!atrule.params.includes('dark')) return
@@ -93,7 +92,8 @@ module.exports = (opts = {}) => {
           }
         }
       }
-    }
+    },
+    postcssPlugin: 'postcss-dark-theme-class'
   }
 }
 module.exports.postcss = true
