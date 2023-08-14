@@ -34,17 +34,17 @@ from media query to special class.
 /* Output CSS */
 
 @media (prefers-color-scheme: dark) {
-  html:not(.is-light) {
+  html:where(:not(.is-light)) {
     --text-color: white
   }
-  html:not(.is-light) body {
+  :where(html:not(.is-light)) body {
     background: black
   }
 }
-html.is-dark {
+html:where(.is-dark) {
   --text-color: white
 }
-html.is-dark body {
+:where(html.is-dark) body {
   background: black
 }
 ```
