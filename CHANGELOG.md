@@ -1,6 +1,11 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.8
+* Moved to `:where()` to keep specificity.
+* Removed Node.js 12, 14, and 16 support.
+* Fixed docs (by Qi Luo).
+
 ## 0.7.3
 * Reduced package size.
 
