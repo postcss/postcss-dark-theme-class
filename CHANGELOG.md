@@ -16,7 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed compatibility with other PostCSS plugins.
 
 ## 0.7
-* Added already trsanformed rules ignoring.
+* Added already transformed rules ignoring.
 
 ## 0.6
 * Added `rootSelector` option.
