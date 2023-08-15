@@ -1,5 +1,5 @@
-const PREFERS_COLOR_ONLY = /^\(\s*prefers-color-scheme\s*:\s*dark\s*\)$/
-const PREFERS_COLOR = /\(\s*prefers-color-scheme\s*:\s*dark\s*\)/g
+const PREFERS_COLOR_ONLY = /^\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)$/
+const PREFERS_COLOR = /\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)/g
 
 function escapeRegExp(string) {
   return string.replace(/[$()*+.?[\\\]^{|}-]/g, '\\$&')
@@ -11,7 +11,7 @@ function replaceAll(string, find, replace) {
 
 module.exports = (opts = {}) => {
   let dark = opts.darkSelector || '.is-dark'
-  let light = `:not(${opts.lightSelector || '.is-light'})`
+  let light = opts.lightSelector || '.is-light'
 
   let roots = opts.rootSelector || ['html', ':root']
   if (!Array.isArray(roots)) roots = [roots]
@@ -64,22 +64,26 @@ module.exports = (opts = {}) => {
   return {
     AtRuleExit: {
       media: atrule => {
-        if (!atrule.params.includes('dark')) return
+        if (!atrule.params.includes('dark') && !atrule.params.includes('light')) return
+
         let params = atrule.params
+        let fixedSelector = params.includes('dark') ? dark : light
+        let nodeSelector = `:not(${params.includes('dark') ? light : dark})`
+
         if (PREFERS_COLOR_ONLY.test(params)) {
           let last = atrule
           atrule.each(node => {
             let fixed
             if (node.type === 'atrule') {
               fixed = node.clone()
-              processNodes(fixed, dark)
-              processNodes(node, light)
+              processNodes(fixed, fixedSelector)
+              processNodes(node, nodeSelector)
             } else if (node.type === 'rule') {
-              if (!node.selector.includes(light)) {
+              if (!node.selector.includes(nodeSelector)) {
                 fixed = node.clone({
-                  selectors: processSelectors(node.selectors, dark)
+                  selectors: processSelectors(node.selectors, fixedSelector)
                 })
-                node.selectors = processSelectors(node.selectors, light)
+                node.selectors = processSelectors(node.selectors, nodeSelector)
               }
             } else if (node.type === 'comment') {
               fixed = node.clone()
@@ -99,8 +103,8 @@ module.exports = (opts = {}) => {
                 .replace(/\s+and\s*$/i, '')
             })
             atrule.after(fixed)
-            processNodes(fixed, dark)
-            processNodes(atrule, light)
+            processNodes(fixed, fixedSelector)
+            processNodes(atrule, nodeSelector)
           }
         }
       }

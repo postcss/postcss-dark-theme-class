@@ -6,6 +6,7 @@ let plugin = require('./')
 
 function run(input, output, opts) {
   let result = postcss([plugin(opts)]).process(input, { from: undefined })
+
   equal(result.css, output)
   equal(result.warnings().length, 0)
 }
@@ -13,6 +14,12 @@ function run(input, output, opts) {
 test('replaces selectors', () => {
   run(
     `@media (prefers-color-scheme:dark) {
+    html.is-a,
+    html,
+    :root,
+    a { }
+  }
+  @media (prefers-color-scheme:light) {
     html.is-a,
     html,
     :root,
@@ -27,13 +34,29 @@ test('replaces selectors', () => {
     html:where(.is-dark).is-a,
     html:where(.is-dark),
     :root:where(.is-dark),
-    :where(html.is-dark) a { }`
+    :where(html.is-dark) a { }
+  @media (prefers-color-scheme:light) {
+    html:where(:not(.is-dark)).is-a,
+    html:where(:not(.is-dark)),
+    :root:where(:not(.is-dark)),
+    :where(html:not(.is-dark)) a { }
+  }
+  html:where(.is-light).is-a,
+    html:where(.is-light),
+    :root:where(.is-light),
+    :where(html.is-light) a { }`
   )
 })
 
 test('disables :where() of request', () => {
   run(
     `@media (prefers-color-scheme:dark) {
+    html.is-a,
+    html,
+    :root,
+    a { }
+  }
+  @media (prefers-color-scheme:light) {
     html.is-a,
     html,
     :root,
@@ -48,7 +71,17 @@ test('disables :where() of request', () => {
     html.is-dark.is-a,
     html.is-dark,
     :root.is-dark,
-    html.is-dark a { }`,
+    html.is-dark a { }
+  @media (prefers-color-scheme:light) {
+    html:not(.is-dark).is-a,
+    html:not(.is-dark),
+    :root:not(.is-dark),
+    html:not(.is-dark) a { }
+  }
+  html.is-light.is-a,
+    html.is-light,
+    :root.is-light,
+    html.is-light a { }`,
     { useWhere: false }
   )
 })
@@ -56,6 +89,16 @@ test('disables :where() of request', () => {
 test('processes inner at-rules', () => {
   run(
     `@media (prefers-color-scheme: dark) {
+    @media (min-width: 500px) {
+      a { }
+    }
+    @media (min-width: 500px) {
+      @media (print) {
+        a { }
+      }
+    }
+  }
+  @media (prefers-color-scheme: light) {
     @media (min-width: 500px) {
       a { }
     }
@@ -81,6 +124,24 @@ test('processes inner at-rules', () => {
     @media (min-width: 500px) {
       @media (print) {
         :where(html.is-dark) a { }
+      }
+    }
+  @media (prefers-color-scheme: light) {
+    @media (min-width: 500px) {
+      :where(html:not(.is-dark)) a { }
+    }
+    @media (min-width: 500px) {
+      @media (print) {
+        :where(html:not(.is-dark)) a { }
+      }
+    }
+  }
+  @media (min-width: 500px) {
+      :where(html.is-light) a { }
+    }
+  @media (min-width: 500px) {
+      @media (print) {
+        :where(html.is-light) a { }
       }
     }`
   )
@@ -137,11 +198,20 @@ test('supports combined queries', () => {
   run(
     `@media (min-width: 60px) and (prefers-color-scheme: dark) {
     a { color: white }
+  }
+  @media (min-width: 60px) and (prefers-color-scheme: light) {
+    a { color: white }
   }`,
     `@media (min-width: 60px) and (prefers-color-scheme: dark) {
     :where(html:not(.is-light)) a { color: white }
   }@media (min-width: 60px) {
     :where(html.is-dark) a { color: white }
+  }
+  @media (min-width: 60px) and (prefers-color-scheme: light) {
+    :where(html:not(.is-dark)) a { color: white }
+  }
+  @media (min-width: 60px) {
+    :where(html.is-light) a { color: white }
   }`
   )
 })
@@ -150,11 +220,20 @@ test('supports combined queries in the middle', () => {
   run(
     `@media (width > 0) and (prefers-color-scheme: dark) and (width > 0) {
     a { color: white }
+  }
+  @media (width > 0) and (prefers-color-scheme: light) and (width > 0) {
+    a { color: white }
   }`,
     `@media (width > 0) and (prefers-color-scheme: dark) and (width > 0) {
     :where(html:not(.is-light)) a { color: white }
   }@media (width > 0) and (width > 0) {
     :where(html.is-dark) a { color: white }
+  }
+  @media (width > 0) and (prefers-color-scheme: light) and (width > 0) {
+    :where(html:not(.is-dark)) a { color: white }
+  }
+  @media (width > 0) and (width > 0) {
+    :where(html.is-light) a { color: white }
   }`
   )
 })
@@ -218,12 +297,23 @@ test('ignores already transformed rules', () => {
     :root:not(.is-light) { --bg: black }
     p { color: white }
   }
+  :root { --bg: white }
+  @media (prefers-color-scheme: light) {
+    :root:not(.is-dark) { --bg: black }
+    p { color: white }
+  }
   :root { --bg: white }`,
     `@media (prefers-color-scheme: dark) {
     :root:not(.is-light) { --bg: black }
     :where(html:not(.is-light)) p { color: white }
   }
     :where(html.is-dark) p { color: white }
+  :root { --bg: white }
+  @media (prefers-color-scheme: light) {
+    :root:not(.is-dark) { --bg: black }
+    :where(html:not(.is-dark)) p { color: white }
+  }
+  :where(html.is-light) p { color: white }
   :root { --bg: white }`
   )
 })
