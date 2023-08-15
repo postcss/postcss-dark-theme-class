@@ -150,6 +150,19 @@ themeSwitcher.addEventListener('change', () => {
 + }
 ```
 
+**Step 7:** Think of adding a small inline JS to prevent [FART] completely.
+
+```html
+  <script defer>
+    if (localStorage.theme === 'light') {
+      html.classList.add('is-light')
+    } else if (localStorage.theme === 'dark') {
+      html.classList.add('is-dark')
+    }
+  </script>
+</head>
+```
+
 [official docs]: https://github.com/postcss/postcss#usage
 
 
