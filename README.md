@@ -28,6 +28,15 @@ from media query to special class.
     background: black
   }
 }
+
+@media (prefers-color-scheme: light) {
+  html {
+    --text-color: black
+  }
+  body {
+    background: white
+  }
+}
 ```
 
 ```css
@@ -46,6 +55,21 @@ html:where(.is-dark) {
 }
 :where(html.is-dark) body {
   background: black
+}
+
+@media (prefers-color-scheme: light) {
+  html:where(:not(.is-dark)) {
+    --text-color: black
+  }
+  :where(html:not(.is-dark)) body {
+    background: white
+  }
+}
+html:where(.is-light) {
+  --text-color: black
+}
+:where(html.is-light) body {
+  background: white
 }
 ```
 
