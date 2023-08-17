@@ -153,7 +153,7 @@ themeSwitcher.addEventListener('change', () => {
 **Step 7:** Think of adding a small inline JS to prevent [FART] completely.
 
 ```html
-  <script defer>
+  <script>
     if (localStorage.theme === 'light') {
       html.classList.add('is-light')
     } else if (localStorage.theme === 'dark') {
