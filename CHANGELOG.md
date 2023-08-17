@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.0
+* Added `preferred-color-scheme: light` support (by Natalia Nagaeva).
+
 ## 0.8
 * Moved to `:where()` to keep specificity.
 * Removed Node.js 12, 14, and 16 support.
