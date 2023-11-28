@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.1
+* Added TypeScript types.
+
 ## 1.0
 * Added `preferred-color-scheme: light` support (by Natalia Nagaeva).
 
