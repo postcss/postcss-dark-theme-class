@@ -53,6 +53,38 @@ By default (without classes on `html`), website will use browser dark/light
 theme. If user want to use dark theme, you set `html.is-dark` class.
 If user want to force light theme, you use `html.is-light`.
 
+This plugin also supports the [light-dark()](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark) color function:
+
+```css
+/* Input CSS */
+
+section {
+  background: light-dark(white, black);
+}
+```
+
+```css
+/* Output CSS */
+
+@media (prefers-color-scheme: dark) {
+  :where(html:not(.is-light)) section {
+    background: black;
+  }
+}
+:where(html.is-dark) section {
+  background: black;
+}
+
+@media (prefers-color-scheme: light) {
+  :where(html:not(.is-dark)) section {
+    background: white;
+  }
+}
+:where(html.is-light) section {
+  background: white;
+}
+```
+
 <a href="https://evilmartians.com/?utm_source=postcss-dark-theme-class">
   <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
        alt="Sponsored by Evil Martians" width="236" height="54">
