@@ -314,18 +314,18 @@ test('allows to change class', () => {
 test('changes root selectors', () => {
   run(
     `@media (prefers-color-scheme: dark) {
-    html, .s { bg: black }
+    html, .s { --bg: black }
     p { color: white }
   }
-  html, .s { bg: white }
+  html, .s { --bg: white }
   p { color: black }`,
     `@media (prefers-color-scheme: dark) {
-    html:where(:not(.is-light)), .s:where(:not(.is-light)) { bg: black }
+    html:where(:not(.is-light)), .s:where(:not(.is-light)) { --bg: black }
     :where(html:not(.is-light)) p,:where(.s:not(.is-light)) p { color: white }
   }
-    html:where(.is-dark), .s:where(.is-dark) { bg: black }
+    html:where(.is-dark), .s:where(.is-dark) { --bg: black }
     :where(html.is-dark) p,:where(.s.is-dark) p { color: white }
-  html, .s { bg: white }
+  html, .s { --bg: white }
   p { color: black }`,
     { rootSelector: ['html', ':root', '.s'] }
   )
@@ -334,18 +334,18 @@ test('changes root selectors', () => {
 test('changes root selector', () => {
   run(
     `@media (prefers-color-scheme: dark) {
-    body { bg: black }
+    body { --bg: black }
     p { color: white }
   }
-  body { bg: white }
+  body { --bg: white }
   p { color: black }`,
     `@media (prefers-color-scheme: dark) {
-    body:where(:not(.is-light)) { bg: black }
+    body:where(:not(.is-light)) { --bg: black }
     :where(body:not(.is-light)) p { color: white }
   }
-    body:where(.is-dark) { bg: black }
+    body:where(.is-dark) { --bg: black }
     :where(body.is-dark) p { color: white }
-  body { bg: white }
+  body { --bg: white }
   p { color: black }`,
     { rootSelector: 'body' }
   )
@@ -354,32 +354,32 @@ test('changes root selector', () => {
 test('ignores already transformed rules - dark scheme', () => {
   run(
     `@media (prefers-color-scheme: dark) {
-    :root:not(.is-light) { bg: black }
+    :root:not(.is-light) { --bg: black }
     p { color: white }
   }
-  :root { bg: white }`,
+  :root { --bg: white }`,
     `@media (prefers-color-scheme: dark) {
-    :root:not(.is-light) { bg: black }
+    :root:not(.is-light) { --bg: black }
     :where(html:not(.is-light)) p { color: white }
   }
     :where(html.is-dark) p { color: white }
-  :root { bg: white }`
+  :root { --bg: white }`
   )
 })
 
 test('ignores already transformed rules - light scheme', () => {
   run(
     `@media (prefers-color-scheme: light) {
-    :root:not(.is-dark) { bg: black }
+    :root:not(.is-dark) { --bg: black }
     p { color: white }
   }
-  :root { bg: white }`,
+  :root { --bg: white }`,
     `@media (prefers-color-scheme: light) {
-    :root:not(.is-dark) { bg: black }
+    :root:not(.is-dark) { --bg: black }
     :where(html:not(.is-dark)) p { color: white }
   }
     :where(html.is-light) p { color: white }
-  :root { bg: white }`
+  :root { --bg: white }`
   )
 })
 
@@ -490,24 +490,24 @@ test('ignores whitespaces for light-dark()', () => {
 
 test('changes root selectors for light-dark()', () => {
   run(
-    `html, .s { bg: light-dark(white, black) }
+    `html, .s { --bg: light-dark(white, black) }
     p { color: light-dark(red, blue) }
 `,
     `@media (prefers-color-scheme: dark) {
     html:where(:not(.is-light)), .s:where(:not(.is-light)) {
-        bg: black
+        --bg: black
     }
 }
 html:where(.is-dark), .s:where(.is-dark) {
-    bg: black
+    --bg: black
 }
 @media (prefers-color-scheme: light) {
     html:where(:not(.is-dark)), .s:where(:not(.is-dark)) {
-        bg: white
+        --bg: white
     }
 }
 html:where(.is-light), .s:where(.is-light) {
-    bg: white
+    --bg: white
 }
     @media (prefers-color-scheme: dark) {
     :where(html:not(.is-light)) p,:where(.s:not(.is-light)) p {
@@ -532,24 +532,24 @@ html:where(.is-light), .s:where(.is-light) {
 
 test('changes root selector for light-dark()', () => {
   run(
-    `body { bg: light-dark(white, black) }
+    `body { --bg: light-dark(white, black) }
     p { color: light-dark(green, yellow) }
 `,
     `@media (prefers-color-scheme: dark) {
     body:where(:not(.is-light)) {
-        bg: black
+        --bg: black
     }
 }
 body:where(.is-dark) {
-    bg: black
+    --bg: black
 }
 @media (prefers-color-scheme: light) {
     body:where(:not(.is-dark)) {
-        bg: white
+        --bg: white
     }
 }
 body:where(.is-light) {
-    bg: white
+    --bg: white
 }
     @media (prefers-color-scheme: dark) {
     :where(body:not(.is-light)) p {
