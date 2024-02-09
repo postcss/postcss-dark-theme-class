@@ -84,12 +84,7 @@ module.exports = (opts = {}) => {
   return {
     AtRuleExit: {
       media: atrule => {
-        if (
-          !atrule.params.includes('dark') &&
-          !atrule.params.includes('light')
-        ) {
-          return
-        }
+        if (!atrule.params.includes('dark') && !atrule.params.includes('light')) return
 
         let params = atrule.params
         let fixedSelector = params.includes('dark') ? dark : light
