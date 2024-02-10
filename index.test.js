@@ -1,5 +1,5 @@
-let { equal } = require('uvu/assert')
-let { test } = require('uvu')
+let { equal } = require('node:assert')
+let { test } = require('node:test')
 let postcss = require('postcss')
 
 let plugin = require('./')
@@ -519,24 +519,24 @@ rgb(30 144 255))
 
 test('changes root selectors for light-dark()', () => {
   run(
-    `html, .s { --bg: light-dark(white, black) }
-    p { color: light-dark(red, blue) }
+    `html, .s {--bg: light-dark(white, black)}
+    p {color: light-dark(red, blue)}
 `,
     `@media (prefers-color-scheme:dark) {
     html:where(:not(.is-light)), .s:where(:not(.is-light)) {
-        --bg: black 
+        --bg: black
     }
 }
 html:where(.is-dark), .s:where(.is-dark) {
-    --bg: black 
+    --bg: black
 }
 @media (prefers-color-scheme:light) {
     html:where(:not(.is-dark)), .s:where(:not(.is-dark)) {
-        --bg: white 
+        --bg: white
     }
 }
 html:where(.is-light), .s:where(.is-light) {
-    --bg: white 
+    --bg: white
 }
     @media (prefers-color-scheme:dark) {
     :where(html:not(.is-light)) p,:where(.s:not(.is-light)) p {
@@ -561,24 +561,24 @@ html:where(.is-light), .s:where(.is-light) {
 
 test('changes root selector for light-dark()', () => {
   run(
-    `body { --bg: light-dark(white, black) }
-    p { color: light-dark(green, yellow) }
+    `body {--bg: light-dark(white, black)}
+    p {color: light-dark(green, yellow)}
 `,
     `@media (prefers-color-scheme:dark) {
     body:where(:not(.is-light)) {
-        --bg: black 
+        --bg: black
     }
 }
 body:where(.is-dark) {
-    --bg: black 
+    --bg: black
 }
 @media (prefers-color-scheme:light) {
     body:where(:not(.is-dark)) {
-        --bg: white 
+        --bg: white
     }
 }
 body:where(.is-light) {
-    --bg: white 
+    --bg: white
 }
     @media (prefers-color-scheme:dark) {
     :where(body:not(.is-light)) p {
@@ -600,5 +600,3 @@ body:where(.is-light) {
     { rootSelector: 'body' }
   )
 })
-
-test.run()

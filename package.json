@@ -13,7 +13,7 @@
     "theme-switcher"
   ],
   "scripts": {
-    "unit": "uvu . '\\.test\\.js$'",
+    "unit": "node --test index.test.js",
     "test:coverage": "c8 pnpm unit",
     "test:lint": "eslint .",
     "test": "pnpm run /^test:/"
@@ -49,8 +49,7 @@
     "eslint-plugin-perfectionist": "^2.5.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "eslint-plugin-promise": "^6.1.1",
-    "postcss": "^8.4.35",
-    "uvu": "^0.5.6"
+    "postcss": "^8.4.35"
   },
   "prettier": {
     "arrowParens": "avoid",
