@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.2.0
+* Added `light-dark()` support (by @VladBrok)
+
 ## 1.1
 * Added TypeScript types.
 
