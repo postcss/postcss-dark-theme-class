@@ -74,7 +74,6 @@ By default (without classes on `html`), website will use browser dark/light
 theme. If user want to use dark theme, you set `html.is-dark` class.
 If user want to force light theme, you use `html.is-light`.
 
-
 <a href="https://evilmartians.com/?utm_source=postcss-dark-theme-class">
   <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
        alt="Sponsored by Evil Martians" width="236" height="54">
