@@ -12,7 +12,7 @@ CSS solution for light/dark/auto theme switcher for websites.
   by subset/sunrise (all operating systems now have theme switching schedule).
 
 [PostCSS] plugin to make switcher to force dark or light theme by copying styles
-from media query or [light-dark()](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark) color function to special class.
+from media query or [light-dark()](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark) to special class.
 
 [PostCSS]: https://github.com/postcss/postcss
 [FART]: https://css-tricks.com/flash-of-inaccurate-color-theme-fart/
