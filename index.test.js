@@ -383,4 +383,222 @@ test('ignores already transformed rules - light scheme', () => {
   )
 })
 
+test('transforms light-dark()', () => {
+  run(
+    `html {
+  border: 1px solid light-dark(white, black)
+}`,
+    `@media (prefers-color-scheme:dark) {
+    html:where(:not(.is-light)) {
+        border: 1px solid black
+    }
+}
+html:where(.is-dark) {
+    border: 1px solid black
+}
+@media (prefers-color-scheme:light) {
+    html:where(:not(.is-dark)) {
+        border: 1px solid white
+    }
+}
+html:where(.is-light) {
+    border: 1px solid white
+}`
+  )
+})
+
+test('does not transform light-dark() inside strings', () => {
+  run(
+    `html {
+  content: ' light-dark(white, black) \
+    light-dark(purple, yellow)
+  ';
+  background: url("light-dark(red, blue).png");
+  quotes: "light-dark(white, black)" "light-dark(red, green)";
+}`,
+    `html {
+  content: ' light-dark(white, black) \
+    light-dark(purple, yellow)
+  ';
+  background: url("light-dark(red, blue).png");
+  quotes: "light-dark(white, black)" "light-dark(red, green)";
+}`
+  )
+})
+
+test('transforms light-dark() and disables :where() of request', () => {
+  run(
+    `section {
+  color: light-dark(#888, #eee)
+}`,
+    `@media (prefers-color-scheme:dark) {
+    html:not(.is-light) section {
+        color: #eee
+    }
+}
+html.is-dark section {
+    color: #eee
+}
+@media (prefers-color-scheme:light) {
+    html:not(.is-dark) section {
+        color: #888
+    }
+}
+html.is-light section {
+    color: #888
+}`,
+    { useWhere: false }
+  )
+})
+
+test('processes inner at-rules with light-dark()', () => {
+  run(
+    `@media (min-width: 500px) {
+      @media (print) {
+        a {
+          background-color: light-dark(white, black)
+        }
+      }
+    }`,
+    `@media (min-width: 500px) {
+      @media (print) {
+        @media (prefers-color-scheme:dark) {
+                  :where(html:not(.is-light)) a {
+                        background-color: black
+                  }
+            }
+        :where(html.is-dark) a {
+                  background-color: black
+            }
+        @media (prefers-color-scheme:light) {
+                  :where(html:not(.is-dark)) a {
+                        background-color: white
+                  }
+            }
+        :where(html.is-light) a {
+                  background-color: white
+            }
+      }
+    }`
+  )
+})
+
+test('ignores whitespaces for light-dark()', () => {
+  run(
+    `a { background: radial-gradient(light-dark( red ,  yellow  ),
+light-dark( white ,  black  ),
+rgb(30 144 255)); }
+`,
+    `@media (prefers-color-scheme:dark) {
+    :where(html:not(.is-light)) a {
+        background: radial-gradient(yellow,
+black,
+rgb(30 144 255))
+    }
+}
+:where(html.is-dark) a {
+    background: radial-gradient(yellow,
+black,
+rgb(30 144 255))
+}
+@media (prefers-color-scheme:light) {
+    :where(html:not(.is-dark)) a {
+        background: radial-gradient(red,
+white,
+rgb(30 144 255))
+    }
+}
+:where(html.is-light) a {
+    background: radial-gradient(red,
+white,
+rgb(30 144 255))
+}
+`
+  )
+})
+
+test('changes root selectors for light-dark()', () => {
+  run(
+    `html, .s { --bg: light-dark(white, black) }
+    p { color: light-dark(red, blue) }
+`,
+    `@media (prefers-color-scheme:dark) {
+    html:where(:not(.is-light)), .s:where(:not(.is-light)) {
+        --bg: black 
+    }
+}
+html:where(.is-dark), .s:where(.is-dark) {
+    --bg: black 
+}
+@media (prefers-color-scheme:light) {
+    html:where(:not(.is-dark)), .s:where(:not(.is-dark)) {
+        --bg: white 
+    }
+}
+html:where(.is-light), .s:where(.is-light) {
+    --bg: white 
+}
+    @media (prefers-color-scheme:dark) {
+    :where(html:not(.is-light)) p,:where(.s:not(.is-light)) p {
+        color: blue
+    }
+}
+    :where(html.is-dark) p,:where(.s.is-dark) p {
+    color: blue
+}
+    @media (prefers-color-scheme:light) {
+    :where(html:not(.is-dark)) p,:where(.s:not(.is-dark)) p {
+        color: red
+    }
+}
+    :where(html.is-light) p,:where(.s.is-light) p {
+    color: red
+}
+`,
+    { rootSelector: ['html', ':root', '.s'] }
+  )
+})
+
+test('changes root selector for light-dark()', () => {
+  run(
+    `body { --bg: light-dark(white, black) }
+    p { color: light-dark(green, yellow) }
+`,
+    `@media (prefers-color-scheme:dark) {
+    body:where(:not(.is-light)) {
+        --bg: black 
+    }
+}
+body:where(.is-dark) {
+    --bg: black 
+}
+@media (prefers-color-scheme:light) {
+    body:where(:not(.is-dark)) {
+        --bg: white 
+    }
+}
+body:where(.is-light) {
+    --bg: white 
+}
+    @media (prefers-color-scheme:dark) {
+    :where(body:not(.is-light)) p {
+        color: yellow
+    }
+}
+    :where(body.is-dark) p {
+    color: yellow
+}
+    @media (prefers-color-scheme:light) {
+    :where(body:not(.is-dark)) p {
+        color: green
+    }
+}
+    :where(body.is-light) p {
+    color: green
+}
+`,
+    { rootSelector: 'body' }
+  )
+})
+
 test.run()

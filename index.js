@@ -1,5 +1,7 @@
 const PREFERS_COLOR_ONLY = /^\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)$/
 const PREFERS_COLOR = /\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)/g
+const LIGHT_DARK = /light-dark\(\s*(.+?)\s*,\s*(.+?)\s*\)/g
+const STRING = /"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/dg
 
 function escapeRegExp(string) {
   return string.replace(/[$()*+.?[\\\]^{|}-]/g, '\\$&')
@@ -7,6 +9,38 @@ function escapeRegExp(string) {
 
 function replaceAll(string, find, replace) {
   return string.replace(new RegExp(escapeRegExp(find), 'g'), replace)
+}
+
+function addColorSchemeMedia(isDark, propValue, declaration, postcss) {
+  let mediaQuery = postcss.atRule({
+    name: 'media',
+    params: `(prefers-color-scheme:${isDark ? 'dark' : 'light'})`
+  })
+  mediaQuery.append(
+    postcss.rule({
+      nodes: [
+        postcss.decl({
+          prop: declaration.prop,
+          value: propValue
+        })
+      ],
+      selector: declaration.parent.selector
+    })
+  )
+  declaration.parent.after(mediaQuery)
+}
+
+function replaceLightDark(isDark, declaration, stringBoundaries) {
+  return declaration.value.replaceAll(
+    LIGHT_DARK,
+    (match, lightColor, darkColor, offset) => {
+      let isInsideString = stringBoundaries.some(
+        boundary => offset > boundary[0] && offset < boundary[1]
+      )
+      if (isInsideString) return match
+      return isDark ? darkColor : lightColor
+    }
+  )
 }
 
 module.exports = (opts = {}) => {
@@ -107,6 +141,30 @@ module.exports = (opts = {}) => {
             processNodes(atrule, nodeSelector)
           }
         }
+      }
+    },
+    DeclarationExit: (declaration, { postcss }) => {
+      if (!declaration.value.includes('light-dark')) return
+
+      let stringBoundaries = []
+      let value = declaration.value.slice()
+      let match = STRING.exec(value)
+      while (match) {
+        stringBoundaries.push(match.indices[0])
+        match = STRING.exec(value)
+      }
+
+      let lightValue = replaceLightDark(false, declaration, stringBoundaries)
+      if (declaration.value === lightValue) return
+      let darkValue = replaceLightDark(true, declaration, stringBoundaries)
+
+      addColorSchemeMedia(false, lightValue, declaration, postcss)
+      addColorSchemeMedia(true, darkValue, declaration, postcss)
+
+      let parent = declaration.parent
+      declaration.remove()
+      if (parent.nodes.length === 0) {
+        parent.remove()
       }
     },
     postcssPlugin: 'postcss-dark-theme-class'
