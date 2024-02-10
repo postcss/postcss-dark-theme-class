@@ -18,12 +18,12 @@ jobs:
         with:
           version: 8
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 21
           cache: pnpm
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --ignore-scripts
+        run: pnpm install --ignore-scripts
       - name: Run tests
         run: pnpm test
   short:
@@ -42,11 +42,11 @@ jobs:
         with:
           version: 8
       - name: Install Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --ignore-scripts
+        run: pnpm install --ignore-scripts
       - name: Run unit tests
         run: pnpm unit
