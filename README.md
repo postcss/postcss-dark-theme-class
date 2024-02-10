@@ -12,7 +12,7 @@ CSS solution for light/dark/auto theme switcher for websites.
   by subset/sunrise (all operating systems now have theme switching schedule).
 
 [PostCSS] plugin to make switcher to force dark or light theme by copying styles
-from media query to special class.
+from media query or [light-dark()](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark) color function to special class.
 
 [PostCSS]: https://github.com/postcss/postcss
 [FART]: https://css-tricks.com/flash-of-inaccurate-color-theme-fart/
@@ -27,6 +27,10 @@ from media query to special class.
   body {
     background: black
   }
+}
+
+section {
+  background: light-dark(white, black);
 }
 ```
 
@@ -47,24 +51,6 @@ html:where(.is-dark) {
 :where(html.is-dark) body {
   background: black
 }
-```
-
-By default (without classes on `html`), website will use browser dark/light
-theme. If user want to use dark theme, you set `html.is-dark` class.
-If user want to force light theme, you use `html.is-light`.
-
-This plugin also supports the [light-dark()](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/light-dark) color function:
-
-```css
-/* Input CSS */
-
-section {
-  background: light-dark(white, black);
-}
-```
-
-```css
-/* Output CSS */
 
 @media (prefers-color-scheme: dark) {
   :where(html:not(.is-light)) section {
@@ -74,7 +60,6 @@ section {
 :where(html.is-dark) section {
   background: black;
 }
-
 @media (prefers-color-scheme: light) {
   :where(html:not(.is-dark)) section {
     background: white;
@@ -84,6 +69,11 @@ section {
   background: white;
 }
 ```
+
+By default (without classes on `html`), website will use browser dark/light
+theme. If user want to use dark theme, you set `html.is-dark` class.
+If user want to force light theme, you use `html.is-light`.
+
 
 <a href="https://evilmartians.com/?utm_source=postcss-dark-theme-class">
   <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"

@@ -1,6 +1,6 @@
 const PREFERS_COLOR_ONLY = /^\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)$/
 const PREFERS_COLOR = /\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)/g
-const LIGHT_DARK = /^light-dark\(\s*(.+?)\s*,\s*(.+?)\s*\)$/g
+const LIGHT_DARK = /light-dark\(\s*(.+?)\s*,\s*(.+?)\s*\)/g
 
 function escapeRegExp(string) {
   return string.replace(/[$()*+.?[\\\]^{|}-]/g, '\\$&')
@@ -10,17 +10,17 @@ function replaceAll(string, find, replace) {
   return string.replace(new RegExp(escapeRegExp(find), 'g'), replace)
 }
 
-function addColorSchemeMedia(isDark, color, postcss, declaration) {
+function addColorSchemeMedia(isDark, propValue, declaration, postcss) {
   let mediaQuery = postcss.atRule({
     name: 'media',
-    params: `(prefers-color-scheme: ${isDark ? 'dark' : 'light'})`
+    params: `(prefers-color-scheme:${isDark ? 'dark' : 'light'})`
   })
   mediaQuery.append(
     postcss.rule({
       nodes: [
         postcss.decl({
           prop: declaration.prop,
-          value: color
+          value: propValue
         })
       ],
       selector: declaration.parent.selector
@@ -130,14 +130,13 @@ module.exports = (opts = {}) => {
       }
     },
     DeclarationExit: (declaration, { postcss }) => {
-      if (!declaration.value.startsWith('light-dark(')) return
+      if (!declaration.value.includes('light-dark')) return
 
-      let matches = [...declaration.value.matchAll(LIGHT_DARK)][0]
-      let lightColor = matches[1]
-      let darkColor = matches[2]
+      let lightValue = declaration.value.replaceAll(LIGHT_DARK, '$1')
+      let darkValue = declaration.value.replaceAll(LIGHT_DARK, '$2')
 
-      addColorSchemeMedia(false, lightColor, postcss, declaration)
-      addColorSchemeMedia(true, darkColor, postcss, declaration)
+      addColorSchemeMedia(false, lightValue, declaration, postcss)
+      addColorSchemeMedia(true, darkValue, declaration, postcss)
       let parent = declaration.parent
       declaration.remove()
       if (parent.nodes.length === 0) {
