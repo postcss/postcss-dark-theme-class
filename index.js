@@ -1,6 +1,7 @@
 const PREFERS_COLOR_ONLY = /^\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)$/
 const PREFERS_COLOR = /\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)/g
 const LIGHT_DARK = /light-dark\(\s*(.+?)\s*,\s*(.+?)\s*\)/g
+const STRING = /"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/dg
 
 function escapeRegExp(string) {
   return string.replace(/[$()*+.?[\\\]^{|}-]/g, '\\$&')
@@ -27,6 +28,19 @@ function addColorSchemeMedia(isDark, propValue, declaration, postcss) {
     })
   )
   declaration.parent.after(mediaQuery)
+}
+
+function replaceLightDark(isDark, declaration, stringBoundaries) {
+  return declaration.value.replaceAll(
+    LIGHT_DARK,
+    (match, lightColor, darkColor, offset) => {
+      let isInsideString = stringBoundaries.some(
+        boundary => offset > boundary[0] && offset < boundary[1]
+      )
+      if (isInsideString) return match
+      return isDark ? darkColor : lightColor
+    }
+  )
 }
 
 module.exports = (opts = {}) => {
@@ -132,11 +146,21 @@ module.exports = (opts = {}) => {
     DeclarationExit: (declaration, { postcss }) => {
       if (!declaration.value.includes('light-dark')) return
 
-      let lightValue = declaration.value.replaceAll(LIGHT_DARK, '$1')
-      let darkValue = declaration.value.replaceAll(LIGHT_DARK, '$2')
+      let stringBoundaries = []
+      let value = declaration.value.slice()
+      let match = STRING.exec(value)
+      while (match) {
+        stringBoundaries.push(match.indices[0])
+        match = STRING.exec(value)
+      }
+
+      let lightValue = replaceLightDark(false, declaration, stringBoundaries)
+      if (declaration.value === lightValue) return
+      let darkValue = replaceLightDark(true, declaration, stringBoundaries)
 
       addColorSchemeMedia(false, lightValue, declaration, postcss)
       addColorSchemeMedia(true, darkValue, declaration, postcss)
+
       let parent = declaration.parent
       declaration.remove()
       if (parent.nodes.length === 0) {

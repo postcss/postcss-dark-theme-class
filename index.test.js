@@ -416,7 +416,13 @@ test('does not transform light-dark() inside strings', () => {
   background: url("light-dark(red, blue).png");
   quotes: "light-dark(white, black)" "light-dark(red, green)";
 }`,
-    ``
+    `html {
+  content: ' light-dark(white, black) \
+    light-dark(purple, yellow)
+  ';
+  background: url("light-dark(red, blue).png");
+  quotes: "light-dark(white, black)" "light-dark(red, green)";
+}`
   )
 })
 
