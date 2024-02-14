@@ -407,6 +407,30 @@ html:where(.is-light) {
   )
 })
 
+test('transforms nested light-dark()', () => {
+  run(
+    `html {
+  border: 1px solid light-dark(light-dark(white, red), light-dark(blue, light-dark(gray, rgb(255 122 127 / .2))))
+}`,
+    `@media (prefers-color-scheme:dark) {
+    html:where(:not(.is-light)) {
+        border: 1px solid rgb(255 122 127 / .2)
+    }
+}
+html:where(.is-dark) {
+    border: 1px solid rgb(255 122 127 / .2)
+}
+@media (prefers-color-scheme:light) {
+    html:where(:not(.is-dark)) {
+        border: 1px solid white
+    }
+}
+html:where(.is-light) {
+    border: 1px solid white
+}`
+  )
+})
+
 test('transforms light-dark() with various color formats', () => {
   run(
     `html {
