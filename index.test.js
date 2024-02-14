@@ -407,6 +407,59 @@ html:where(.is-light) {
   )
 })
 
+test('transforms light-dark() with various color formats', () => {
+  run(
+    `html {
+  border: 1px solid light-dark(rgb(0, 0, 0), var(--color));
+  color: light-dark( hsla(120, 100%, 50%, 0.3) , hsl(
+    var(--red-hue)
+    var(--red-sat)
+    calc(var(--red-lit) - 20%)
+  ));
+}`,
+    `@media (prefers-color-scheme:dark) {
+    html:where(:not(.is-light)) {
+        color: hsl(
+    var(--red-hue)
+    var(--red-sat)
+    calc(var(--red-lit) - 20%)
+  )
+    }
+}
+html:where(.is-dark) {
+    color: hsl(
+    var(--red-hue)
+    var(--red-sat)
+    calc(var(--red-lit) - 20%)
+  )
+}
+@media (prefers-color-scheme:light) {
+    html:where(:not(.is-dark)) {
+        color: hsla(120, 100%, 50%, 0.3)
+    }
+}
+html:where(.is-light) {
+    color: hsla(120, 100%, 50%, 0.3)
+}
+@media (prefers-color-scheme:dark) {
+    html:where(:not(.is-light)) {
+        border: 1px solid var(--color)
+    }
+}
+html:where(.is-dark) {
+    border: 1px solid var(--color)
+}
+@media (prefers-color-scheme:light) {
+    html:where(:not(.is-dark)) {
+        border: 1px solid rgb(0, 0, 0)
+    }
+}
+html:where(.is-light) {
+    border: 1px solid rgb(0, 0, 0)
+}`
+  )
+})
+
 test('does not transform light-dark() inside strings', () => {
   run(
     `html {
