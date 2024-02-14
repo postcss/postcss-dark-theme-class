@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.2.1
+* Fixed function support inside `light-dark()` (by @VladBrok)
+
 ## 1.2.0
 * Added `light-dark()` support (by @VladBrok)
 
