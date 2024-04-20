@@ -21,6 +21,7 @@ function addColorSchemeMedia(isDark, propValue, declaration, postcss) {
     postcss.rule({
       nodes: [
         postcss.decl({
+          important: declaration.important,
           prop: declaration.prop,
           value: propValue
         })
