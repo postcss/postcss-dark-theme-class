@@ -1,4 +1,4 @@
-let valueParser = require('postcss-value-parser');
+let valueParser = require('postcss-value-parser')
 
 const PREFERS_COLOR_ONLY = /^\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)$/
 const PREFERS_COLOR = /\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)/g
@@ -43,10 +43,14 @@ function extractLightDark(isDark, declarationValue) {
 function mutateLightDarkRec(isDark, parsed) {
   let wasMutated = false
   parsed.walk(node => {
-    if (wasMutated || node.type !== 'function' || node.value !== 'light-dark') return
-    
+    if (wasMutated || node.type !== 'function' || node.value !== 'light-dark') {
+      return
+    }
+
     let light = node.nodes[0]
-    let dark = node.nodes.find((x, i) => i > 0 && (x.type === 'word' || x.type === 'function'))
+    let dark = node.nodes.find((child, index) => {
+      return index > 0 && (child.type === 'word' || child.type === 'function')
+    })
     Object.assign(node, isDark ? dark : light)
     mutateLightDarkRec(isDark, parsed)
     wasMutated = true
@@ -108,8 +112,13 @@ module.exports = (opts = {}) => {
 
   return {
     AtRuleExit: {
-      media: atrule => {
-        if (!atrule.params.includes('dark') && !atrule.params.includes('light')) return
+      media(atrule) {
+        if (
+          !atrule.params.includes('dark') &&
+          !atrule.params.includes('light')
+        ) {
+          return
+        }
 
         let params = atrule.params
         let fixedSelector = params.includes('dark') ? dark : light
