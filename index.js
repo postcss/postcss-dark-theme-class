@@ -15,7 +15,8 @@ function replaceAll(string, find, replace) {
 function addColorSchemeMedia(isDark, propValue, declaration, postcss) {
   let mediaQuery = postcss.atRule({
     name: 'media',
-    params: `(prefers-color-scheme:${isDark ? 'dark' : 'light'})`
+    params: `(prefers-color-scheme:${isDark ? 'dark' : 'light'})`,
+    source: declaration.source
   })
   mediaQuery.append(
     postcss.rule({
@@ -23,10 +24,12 @@ function addColorSchemeMedia(isDark, propValue, declaration, postcss) {
         postcss.decl({
           important: declaration.important,
           prop: declaration.prop,
+          source: declaration.source,
           value: propValue
         })
       ],
-      selector: declaration.parent.selector
+      selector: declaration.parent.selector,
+      source: declaration.source
     })
   )
   declaration.parent.after(mediaQuery)
