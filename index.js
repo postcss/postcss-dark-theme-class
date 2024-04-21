@@ -67,6 +67,8 @@ module.exports = (opts = {}) => {
 
   let useWhere = opts.useWhere ?? true
 
+  let preserve = opts.preserve ?? true
+
   let uniqueRoots = roots
   if (uniqueRoots.includes('html')) {
     uniqueRoots = uniqueRoots.filter(i => i !== ':root')
@@ -144,6 +146,9 @@ module.exports = (opts = {}) => {
               last = fixed
             }
           })
+          if (!preserve) {
+            atrule.remove()
+          }
         } else if (PREFERS_COLOR.test(params) && params.includes(' and ')) {
           if (atrule.params.includes(' and ')) {
             let fixed = atrule.clone({
@@ -156,6 +161,9 @@ module.exports = (opts = {}) => {
             atrule.after(fixed)
             processNodes(fixed, fixedSelector)
             processNodes(atrule, nodeSelector)
+            if (!preserve) {
+              atrule.remove()
+            }
           }
         }
       }
