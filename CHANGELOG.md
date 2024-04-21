@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.2.3
+* Fixed `light-dark()` support in complex values (by @VladBrok).
+* Fixed source map for `light-dark()` (by @romainmenke).
+
 ## 1.2.2
 * Fixed `!important` for `light-dark()` (by @yuheiy).
 
