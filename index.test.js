@@ -701,3 +701,27 @@ body:where(.is-light) {
     { rootSelector: 'body' }
   )
 })
+
+test('transforms complex nested light-dark()', () => {
+  run(
+    `.light-dark-function-mix-a {
+    color: light-dark(color-mix(in oklch, red, light-dark(cyan, rgb(0, 0, 0))), blue);
+}`,
+`@media (prefers-color-scheme:dark) {
+    :where(html:not(.is-light)) .light-dark-function-mix-a {
+        color: blue
+    }
+}
+:where(html.is-dark) .light-dark-function-mix-a {
+    color: blue
+}
+@media (prefers-color-scheme:light) {
+    :where(html:not(.is-dark)) .light-dark-function-mix-a {
+        color: color-mix(in oklch, red, cyan)
+    }
+}
+:where(html.is-light) .light-dark-function-mix-a {
+    color: color-mix(in oklch, red, cyan)
+}`
+  )
+})
