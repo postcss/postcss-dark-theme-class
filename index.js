@@ -113,14 +113,11 @@ module.exports = (opts = {}) => {
   return {
     AtRuleExit: {
       media(atrule) {
-        if (
-          !atrule.params.includes('dark') &&
-          !atrule.params.includes('light')
-        ) {
+        let params = atrule.params
+        if (!params.includes('dark') && !params.includes('light')) {
           return
         }
 
-        let params = atrule.params
         let fixedSelector = params.includes('dark') ? dark : light
         let nodeSelector = `:not(${params.includes('dark') ? light : dark})`
 
