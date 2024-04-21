@@ -1,8 +1,7 @@
+let valueParser = require('postcss-value-parser');
+
 const PREFERS_COLOR_ONLY = /^\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)$/
 const PREFERS_COLOR = /\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)/g
-const LIGHT_DARK =
-  /light-dark\(\s*((?:[^(),]|\(.+\))+?)\s*,\s*((?:[^(),]|\(.+\))+?)\s*\)/gs
-const STRING = /"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/dg
 
 function escapeRegExp(string) {
   return string.replace(/[$()*+.?[\\\]^{|}-]/g, '\\$&')
@@ -35,17 +34,24 @@ function addColorSchemeMedia(isDark, propValue, declaration, postcss) {
   declaration.parent.after(mediaQuery)
 }
 
-function replaceLightDark(isDark, declarationValue, stringBoundaries) {
-  return declarationValue.replaceAll(
-    LIGHT_DARK,
-    (match, lightColor, darkColor, offset) => {
-      let isInsideString = stringBoundaries.some(
-        boundary => offset > boundary[0] && offset < boundary[1]
-      )
-      if (isInsideString) return match
-      return replaceLightDark(isDark, isDark ? darkColor : lightColor, [])
-    }
-  )
+function extractLightDark(isDark, declarationValue) {
+  let parsed = valueParser(declarationValue)
+  mutateLightDarkRec(isDark, parsed)
+  return valueParser.stringify(parsed)
+}
+
+function mutateLightDarkRec(isDark, parsed) {
+  let wasMutated = false
+  parsed.walk(node => {
+    if (wasMutated || node.type !== 'function' || node.value !== 'light-dark') return
+    
+    let light = node.nodes[0]
+    let dark = node.nodes.find((x, i) => i > 0 && (x.type === 'word' || x.type === 'function'))
+    Object.assign(node, isDark ? dark : light)
+    mutateLightDarkRec(isDark, parsed)
+    wasMutated = true
+    return false
+  })
 }
 
 module.exports = (opts = {}) => {
@@ -151,25 +157,9 @@ module.exports = (opts = {}) => {
     DeclarationExit: (declaration, { postcss }) => {
       if (!declaration.value.includes('light-dark')) return
 
-      let stringBoundaries = []
-      let value = declaration.value.slice()
-      let match = STRING.exec(value)
-      while (match) {
-        stringBoundaries.push(match.indices[0])
-        match = STRING.exec(value)
-      }
-
-      let lightValue = replaceLightDark(
-        false,
-        declaration.value,
-        stringBoundaries
-      )
-      if (declaration.value === lightValue) return
-      let darkValue = replaceLightDark(
-        true,
-        declaration.value,
-        stringBoundaries
-      )
+      let lightValue = extractLightDark(false, declaration.value)
+      if (lightValue === declaration.value) return
+      let darkValue = extractLightDark(true, declaration.value)
 
       addColorSchemeMedia(false, lightValue, declaration, postcss)
       addColorSchemeMedia(true, darkValue, declaration, postcss)
