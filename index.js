@@ -2,9 +2,6 @@ let valueParser = require('postcss-value-parser');
 
 const PREFERS_COLOR_ONLY = /^\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)$/
 const PREFERS_COLOR = /\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)/g
-const LIGHT_DARK =
-  /light-dark\(\s*((?:[^(),]|\(.+\))+?)\s*,\s*((?:[^(),]|\(.+\))+?)\s*\)/gs
-const STRING = /"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/dg
 
 function escapeRegExp(string) {
   return string.replace(/[$()*+.?[\\\]^{|}-]/g, '\\$&')
