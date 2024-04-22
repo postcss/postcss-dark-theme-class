@@ -67,6 +67,8 @@ module.exports = (opts = {}) => {
 
   let useWhere = opts.useWhere ?? true
 
+  let removeMedia = opts.removeMedia ?? false
+
   let uniqueRoots = roots
   if (uniqueRoots.includes('html')) {
     uniqueRoots = uniqueRoots.filter(i => i !== ':root')
@@ -128,13 +130,17 @@ module.exports = (opts = {}) => {
             if (node.type === 'atrule') {
               fixed = node.clone()
               processNodes(fixed, fixedSelector)
-              processNodes(node, nodeSelector)
+              if (!removeMedia) {
+                processNodes(node, nodeSelector)
+              }
             } else if (node.type === 'rule') {
               if (!node.selector.includes(nodeSelector)) {
                 fixed = node.clone({
                   selectors: processSelectors(node.selectors, fixedSelector)
                 })
-                node.selectors = processSelectors(node.selectors, nodeSelector)
+                if (!removeMedia) {
+                  node.selectors = processSelectors(node.selectors, nodeSelector)
+                }
               }
             } else if (node.type === 'comment') {
               fixed = node.clone()
@@ -144,6 +150,9 @@ module.exports = (opts = {}) => {
               last = fixed
             }
           })
+          if (removeMedia) {
+            atrule.remove()
+          }
         } else if (PREFERS_COLOR.test(params) && params.includes(' and ')) {
           if (atrule.params.includes(' and ')) {
             let fixed = atrule.clone({
@@ -155,7 +164,11 @@ module.exports = (opts = {}) => {
             })
             atrule.after(fixed)
             processNodes(fixed, fixedSelector)
-            processNodes(atrule, nodeSelector)
+            if (!removeMedia) {
+              processNodes(atrule, nodeSelector)
+            } else {
+              atrule.remove()
+            }
           }
         }
       }
