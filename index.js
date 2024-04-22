@@ -67,7 +67,7 @@ module.exports = (opts = {}) => {
 
   let useWhere = opts.useWhere ?? true
 
-  let preserve = opts.preserve ?? true
+  let onlySelectors = opts.onlySelectors ?? false
 
   let uniqueRoots = roots
   if (uniqueRoots.includes('html')) {
@@ -130,7 +130,7 @@ module.exports = (opts = {}) => {
             if (node.type === 'atrule') {
               fixed = node.clone()
               processNodes(fixed, fixedSelector)
-              if (preserve) {
+              if (!onlySelectors) {
                 processNodes(node, nodeSelector)
               }
             } else if (node.type === 'rule') {
@@ -138,7 +138,7 @@ module.exports = (opts = {}) => {
                 fixed = node.clone({
                   selectors: processSelectors(node.selectors, fixedSelector)
                 })
-                if (preserve) {
+                if (!onlySelectors) {
                   node.selectors = processSelectors(node.selectors, nodeSelector)
                 }
               }
@@ -150,7 +150,7 @@ module.exports = (opts = {}) => {
               last = fixed
             }
           })
-          if (!preserve) {
+          if (onlySelectors) {
             atrule.remove()
           }
         } else if (PREFERS_COLOR.test(params) && params.includes(' and ')) {
@@ -164,7 +164,7 @@ module.exports = (opts = {}) => {
             })
             atrule.after(fixed)
             processNodes(fixed, fixedSelector)
-            if (preserve) {
+            if (!onlySelectors) {
               processNodes(atrule, nodeSelector)
             } else {
               atrule.remove()

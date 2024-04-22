@@ -5,7 +5,7 @@ declare const darkClass: PluginCreator<{
   lightSelector?: string
   rootSelector?: string | string[]
   useWhere?: boolean
-  preserve?: boolean
+  onlySelectors?: boolean
 }>
 
 export default darkClass
