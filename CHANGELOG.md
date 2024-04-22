@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.3.0
+* Added `removeMedia` option (by @aletorrado).
+
 ## 1.2.3
 * Fixed `light-dark()` support in complex values (by @VladBrok).
 * Fixed source map for `light-dark()` (by @romainmenke).
