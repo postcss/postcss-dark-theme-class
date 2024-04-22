@@ -232,3 +232,18 @@ Selector for node for CSS Custom properties and dark/light theme classes.
 Type: `boolean`. Default: `true`.
 
 Should plugin wrap added selector to `:where()` to keep origin specificity.
+
+
+## `removeMedia`
+
+Type: `boolean`. Default: `false`.
+
+Should plugin remove origin `@media` and keep only classes. It could be useful
+when only JS is responsible for theme switching.
+
+If you are using this option, don’t forget:
+1. That theme should have 3 values: light, system, dark.
+2. To subscribe for system theme switching in JS.
+
+We do not recommend this option for most of the cases, because of light flash
+when user visit your app with dark system theme and until JS will be loaded.
