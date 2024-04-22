@@ -130,13 +130,17 @@ module.exports = (opts = {}) => {
             if (node.type === 'atrule') {
               fixed = node.clone()
               processNodes(fixed, fixedSelector)
-              processNodes(node, nodeSelector)
+              if (preserve) {
+                processNodes(node, nodeSelector)
+              }
             } else if (node.type === 'rule') {
               if (!node.selector.includes(nodeSelector)) {
                 fixed = node.clone({
                   selectors: processSelectors(node.selectors, fixedSelector)
                 })
-                node.selectors = processSelectors(node.selectors, nodeSelector)
+                if (preserve) {
+                  node.selectors = processSelectors(node.selectors, nodeSelector)
+                }
               }
             } else if (node.type === 'comment') {
               fixed = node.clone()
@@ -160,8 +164,9 @@ module.exports = (opts = {}) => {
             })
             atrule.after(fixed)
             processNodes(fixed, fixedSelector)
-            processNodes(atrule, nodeSelector)
-            if (!preserve) {
+            if (preserve) {
+              processNodes(atrule, nodeSelector)
+            } else {
               atrule.remove()
             }
           }
