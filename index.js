@@ -139,7 +139,10 @@ module.exports = (opts = {}) => {
                   selectors: processSelectors(node.selectors, fixedSelector)
                 })
                 if (!removeMedia) {
-                  node.selectors = processSelectors(node.selectors, nodeSelector)
+                  node.selectors = processSelectors(
+                    node.selectors,
+                    nodeSelector
+                  )
                 }
               }
             } else if (node.type === 'comment') {

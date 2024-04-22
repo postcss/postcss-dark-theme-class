@@ -707,7 +707,7 @@ test('transforms complex nested light-dark()', () => {
     `.light-dark-function-mix-a {
     color: light-dark(color-mix(in oklch, red, light-dark(cyan, rgb(0, 0, 0))), blue);
 }`,
-`@media (prefers-color-scheme:dark) {
+    `@media (prefers-color-scheme:dark) {
     :where(html:not(.is-light)) .light-dark-function-mix-a {
         color: blue
     }
@@ -731,7 +731,7 @@ test('removes media using transforms complex nested light-dark()', () => {
     `.light-dark-function-mix-a {
     color: light-dark(color-mix(in oklch, red, light-dark(cyan, rgb(0, 0, 0))), blue);
 }`,
-`:where(html.is-dark) .light-dark-function-mix-a {
+    `:where(html.is-dark) .light-dark-function-mix-a {
     color: blue
 }
 :where(html.is-light) .light-dark-function-mix-a {
@@ -749,8 +749,8 @@ test('removes media with  combined queries in the middle - dark scheme', () => {
     `@media (width > 0) and (width > 0) {
     :where(html.is-dark) a { color: white }
   }`,
-  { removeMedia: true }
-)
+    { removeMedia: true }
+  )
 })
 
 test('removes media with combined queries in the middle - light scheme', () => {
