@@ -1,6 +1,6 @@
 {
   "name": "postcss-dark-theme-class",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "CSS solution for light/dark/auto theme switcher for websites",
   "keywords": [
     "postcss",

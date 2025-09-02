@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0.0
+* Removed Node.js 18 support.
+* Fixed types.
+
 ## 1.3.0
 * Added `removeMedia` option (by @aletorrado).
 
