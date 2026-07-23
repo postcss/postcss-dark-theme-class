@@ -6,9 +6,9 @@
 
 CSS solution for light/dark/auto theme switcher for websites.
 
-* It doesn’t have [FART] **flash of light theme** during JS initialization.
-* **Pure CSS** solution. You need JS only to set HTML class, when user.
-* **Automatic theme** provide better UX for users with theme switching
+- It doesn’t have [FART] **flash of light theme** during JS initialization.
+- **Pure CSS** solution. You need JS only to set HTML class, when user.
+- **Automatic theme** provide better UX for users with theme switching
   by subset/sunrise (all operating systems now have theme switching schedule).
 
 [PostCSS] plugin to make switcher to force dark or light theme by copying styles
@@ -23,10 +23,10 @@ from media query or [`light-dark()`] to special class.
 
 @media (prefers-color-scheme: dark) {
   html {
-    --text-color: white
+    --text-color: white;
   }
   body {
-    background: black
+    background: black;
   }
 }
 
@@ -40,17 +40,17 @@ section {
 
 @media (prefers-color-scheme: dark) {
   html:where(:not(.is-light)) {
-    --text-color: white
+    --text-color: white;
   }
   :where(html:not(.is-light)) body {
-    background: black
+    background: black;
   }
 }
 html:where(.is-dark) {
-  --text-color: white
+  --text-color: white;
 }
 :where(html.is-dark) body {
-  background: black
+  background: black;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -75,11 +75,11 @@ By default (without classes on `html`), website will use browser dark/light
 theme. If user want to use dark theme, you set `html.is-dark` class.
 If user want to force light theme, you use `html.is-light`.
 
-<a href="https://evilmartians.com/?utm_source=postcss-dark-theme-class">
-  <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
-       alt="Sponsored by Evil Martians" width="236" height="54">
-</a>
+---
 
+<img src="https://cdn.evilmartians.com/badges/logo-no-label.svg" alt="" width="22" height="16" />  PostCSS Safe Parser is built by <b><a href="https://evilmartians.com/">Evil Martians</a></b>, an American design and engineering consultancy for <b>developer tools, AI, and cybersecurity startups</b>.
+
+---
 
 ## Usage
 
@@ -126,24 +126,19 @@ const html = document.documentElement
 const themeSwitcher = document.getElementById('themeSwitcher')
 
 themeSwitcher.addEventListener('change', () => {
-
   if (themeSwitcher.value === 'auto') {
     html.classList.remove('is-dark', 'is-light')
-
   } else if (themeSwitcher.value === 'light') {
     html.classList.add('is-light')
     html.classList.remove('is-dark')
-
   } else if (themeSwitcher.value === 'dark') {
     html.classList.add('is-dark')
     html.classList.remove('is-light')
-
   }
 })
 ```
 
 **Step 6:** Save user’s choice in `localStorage`.
-
 
 ```diff
   const html = document.documentElement
@@ -187,7 +182,6 @@ themeSwitcher.addEventListener('change', () => {
 
 [official docs]: https://github.com/postcss/postcss#usage
 
-
 ## Options
 
 ```js
@@ -201,7 +195,6 @@ module.exports = {
 }
 ```
 
-
 ### `darkSelector`
 
 Type: `string`. Default: `.is-dark`.
@@ -209,7 +202,6 @@ Type: `string`. Default: `.is-dark`.
 Any CSS’s valid selector for `<html>` (alias for `:root`), which will switch
 dark theme. Use `darkSelector: '[data-theme="dark"]'` if you will switch theme
 by setting `<html data-theme=dark>`
-
 
 ### `lightSelector`
 
@@ -219,20 +211,17 @@ Any CSS’s valid selector, which will switch light theme.
 Use `lightSelector: '[data-theme="light"]'` if you will switch theme by setting
 `<html data-theme="light">`
 
-
 ## `rootSelector`
 
 Type: `string[]`, `string`. Default: `['html', ':root']`.
 
 Selector for node for CSS Custom properties and dark/light theme classes.
 
-
 ## `useWhere`
 
 Type: `boolean`. Default: `true`.
 
 Should plugin wrap added selector to `:where()` to keep origin specificity.
-
 
 ## `removeMedia`
 
@@ -242,6 +231,7 @@ Should plugin remove origin `@media` and keep only classes. It could be useful
 when only JS is responsible for theme switching.
 
 If you are using this option, don’t forget:
+
 1. That theme should have 3 values: light, system, dark.
 2. To subscribe for system theme switching in JS.
 
